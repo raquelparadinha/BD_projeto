@@ -50,7 +50,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.Categoria_textbox = new System.Windows.Forms.TextBox();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.Func_list = new System.Windows.Forms.ListBox();
             this.label12 = new System.Windows.Forms.Label();
             this.SSN_textbox = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
@@ -240,7 +240,7 @@
             // 
             this.label11.AutoSize = true;
             this.label11.Enabled = false;
-            this.label11.Location = new System.Drawing.Point(282, 350);
+            this.label11.Location = new System.Drawing.Point(478, 284);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(66, 16);
             this.label11.TabIndex = 22;
@@ -252,65 +252,57 @@
             // 
             this.Categoria_textbox.BackColor = System.Drawing.Color.LightSteelBlue;
             this.Categoria_textbox.Enabled = false;
-            this.Categoria_textbox.Location = new System.Drawing.Point(281, 372);
+            this.Categoria_textbox.Location = new System.Drawing.Point(477, 306);
             this.Categoria_textbox.Name = "Categoria_textbox";
             this.Categoria_textbox.Size = new System.Drawing.Size(185, 22);
             this.Categoria_textbox.TabIndex = 21;
             this.Categoria_textbox.Visible = false;
             this.Categoria_textbox.TextChanged += new System.EventHandler(this.textBox5_TextChanged);
             // 
-            // listBox1
+            // Func_list
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 16;
-            this.listBox1.Location = new System.Drawing.Point(12, 18);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(263, 324);
-            this.listBox1.TabIndex = 23;
+            this.Func_list.FormattingEnabled = true;
+            this.Func_list.ItemHeight = 16;
+            this.Func_list.Location = new System.Drawing.Point(12, 18);
+            this.Func_list.Name = "Func_list";
+            this.Func_list.Size = new System.Drawing.Size(263, 324);
+            this.Func_list.TabIndex = 23;
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Enabled = false;
-            this.label12.Location = new System.Drawing.Point(477, 284);
+            this.label12.Location = new System.Drawing.Point(283, 350);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(35, 16);
             this.label12.TabIndex = 27;
             this.label12.Text = "SSN";
-            this.label12.Visible = false;
             this.label12.Click += new System.EventHandler(this.label12_Click);
             // 
             // SSN_textbox
             // 
             this.SSN_textbox.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.SSN_textbox.Enabled = false;
-            this.SSN_textbox.Location = new System.Drawing.Point(476, 306);
+            this.SSN_textbox.Location = new System.Drawing.Point(282, 372);
             this.SSN_textbox.Name = "SSN_textbox";
             this.SSN_textbox.Size = new System.Drawing.Size(185, 22);
             this.SSN_textbox.TabIndex = 26;
-            this.SSN_textbox.Visible = false;
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Enabled = false;
             this.label13.Location = new System.Drawing.Point(477, 350);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(28, 16);
             this.label13.TabIndex = 29;
             this.label13.Text = "NIF";
-            this.label13.Visible = false;
             this.label13.Click += new System.EventHandler(this.label13_Click);
             // 
             // NIF_textbox
             // 
             this.NIF_textbox.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.NIF_textbox.Enabled = false;
             this.NIF_textbox.Location = new System.Drawing.Point(476, 372);
             this.NIF_textbox.Name = "NIF_textbox";
             this.NIF_textbox.Size = new System.Drawing.Size(185, 22);
             this.NIF_textbox.TabIndex = 28;
-            this.NIF_textbox.Visible = false;
             // 
             // Form1
             // 
@@ -322,7 +314,7 @@
             this.Controls.Add(this.NIF_textbox);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.SSN_textbox);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.Func_list);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.Categoria_textbox);
             this.Controls.Add(this.label10);
@@ -377,7 +369,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox Categoria_textbox;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox Func_list;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox SSN_textbox;
         private System.Windows.Forms.Label label13;

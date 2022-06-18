@@ -31,6 +31,8 @@ namespace ProjetoBD
             Cargo_Box.Items.Add("Atendimento ao Cliente");
             Cargo_Box.Items.Add("Reposição");
             Cargo_Box.Items.Add("Op_Caixa");
+
+            updateListFuncionarios();
         }
 
         private SqlConnection getSGBDConnection()
@@ -153,7 +155,7 @@ namespace ProjetoBD
                         break;
 
                     case "Reposição":
-                        command = new SqlCommand("Mercado.Adicionar_reposicao" + cargo, cn);
+                        command = new SqlCommand("Mercado.Adicionar_Reposicao" + cargo, cn);
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.Add(new SqlParameter("@Nome", nome));
                         command.Parameters.Add(new SqlParameter("@Id", Id));
@@ -196,7 +198,7 @@ namespace ProjetoBD
                 {
 
                     Nome_textbox.Text = "";
-                    Id_textbox.Text  = "";
+                    Id_textbox.Text = "";
                     Email_textbox.Text = "";
                     tel_textbox.Text = "";
                     Morada_textbox.Text = "";
@@ -212,6 +214,85 @@ namespace ProjetoBD
                 }
             }
         }
+
+        private void updateListFuncionarios()
+        {
+            if (!verifySGBDConnection())
+            {
+                return;
+            }
+            //groupsVisibleFalse();
+            //panelsVisibleFalse();
+            Func_list.Items.Clear();
+            //button8.Visible = true;
+            //button7.Visible = true;
+            //button9.Visible = true;
+            SqlCommand cmd = new SqlCommand("select * from Mercado.obterFuncionarios()", cn);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                Funcionario funcionario = new Funcionario();
+                funcionario.Nome = reader["Nome"].ToString();
+                funcionario.Id = reader["ID"].ToString();
+                //funcionario.Email = reader["Email"].ToString();
+                //funcionario.Telemovel = reader["Telemovel"].ToString();
+                //funcionario.SSN = reader["SSN"].ToString();
+                //funcionario.NIF = reader["NIF"].ToString();
+                //funcionario.Morada = reader["Morada"].ToString();
+                //funcionario.Salario = reader["Salario"].ToString();
+                //funcionario.DataInicio = reader["DInicio"].ToString();
+                //funcionario.DataFim = reader["DFim"].ToString();
+                //if (reader["IDSup"].ToString() != null)
+                //{
+                //    funcionario.Id_Sup = reader["IDSup"].ToString();
+                //}
+                //if (reader["Categoria"].ToString() != null)
+                //{
+                //    funcionario.Categoria = reader["Categoria"].ToString();
+                //}
+
+
+                Func_list.Items.Add(funcionario);
+
+            }
+            reader.Close();
+            cn.Close();
+            if (Func_list.Items.Count > 0)
+            {
+                Func_list.SelectedIndex = 0;
+            }
+            //if (!verifySGBDConnection())
+            //{
+            //    return;
+            //}
+            //SqlCommand cmd2 = new SqlCommand("select * from Biblestia.obterFuncionariosAtuais('" + biblioteca.Nome + "')", cn);
+            //SqlDataReader reader2 = cmd2.ExecuteReader();
+            //reader2.Read();
+            //String nFuncionariosAtuais = reader2["FuncionariosAtuais"].ToString();
+            //double percentagemAtuais = int.Parse(nFuncionariosAtuais);
+            //double total = listBox1.Items.Count;
+            //double output = percentagemAtuais / total * 100;
+            //textBox8.Text = listBox1.Items.Count.ToString();
+            //textBox9.Text = nFuncionariosAtuais;
+            //textBox10.Text = String.Format("{0:0.##}", output);
+            //reader2.Close();
+            //cn.Close();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         private void label1_Click(object sender, EventArgs e)
         {
