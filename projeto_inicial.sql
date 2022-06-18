@@ -29,17 +29,13 @@ drop table Mercado.Repoe;
 
 
 /* Create tables */
--- 15 funcionários
-
--- 1 (caixa - resp - chefe)
--- 
 create table Mercado.Chefe_Loja (
     ID                      int,    
 	NIF						char(9)						not null,
 	SSN						char(11)					not null,
-	Email                   varchar(50)                 not null,  
+	Email                   varchar(50),  
     Morada                  varchar(50),            
-    Nome                    varchar(50),            
+    Nome                    varchar(50)					not null,            
     Telemovel               char(9),            
     Salario                 decimal(6, 2)				not null,
     DInicio                 date                        not null,
@@ -53,12 +49,12 @@ create table Mercado.Resp_Op (
     ID                      int,   
 	NIF						char(9)						not null,
 	SSN						char(11)					not null,
-	Email                   varchar(50)                 not null,
-    IDSup                   int,            
+	Email                   varchar(50),
+    IDSup                   int							not null,            
     Morada                  varchar(50),            
-    Nome                    varchar(50),            
+    Nome                    varchar(50)					not null,            
     Telemovel               char(9),            
-    Salario                 decimal(6, 2)              not null,
+    Salario                 decimal(6, 2)				not null,
     Categoria               varchar(50)                 not null, 
     DInicio                 date                        not null,
     DFim                    date,                 
@@ -77,12 +73,12 @@ create table Mercado.Op_Caixa (
     ID                      int, 
 	NIF						char(9)						not null,
 	SSN						char(11)					not null,
-	Email                   varchar(50)                 not null,
+	Email                   varchar(50),
     IDSup                   int,            
     Morada                  varchar(50),            
-    Nome                    varchar(50),            
+    Nome                    varchar(50)					not null,            
     Telemovel               char(9),            
-    Salario                 decimal(6, 2)              not null,
+    Salario                 decimal(6, 2)               not null,
     IDCaixa                 int,  
     CodAcesso               char(6), 
     DInicio                 date                        not null,
@@ -100,12 +96,12 @@ create table Mercado.Atend_Cliente (
     ID                      int,
 	NIF						char(9)						not null,
 	SSN						char(11)					not null,
-	Email                   varchar(50)                 not null,
+	Email                   varchar(50),
     IDSup                   int,            
     Morada                  varchar(50),            
-    Nome                    varchar(50),            
+    Nome                    varchar(50)					not null,            
     Telemovel               char(9),            
-    Salario                 decimal(6, 2)              not null,
+    Salario                 decimal(6, 2)               not null,
     ExtTelefone             char(3), 
     DInicio                 date                        not null,
     DFim                    date,                 
@@ -114,8 +110,7 @@ create table Mercado.Atend_Cliente (
 );
 
 create table Mercado.Armazem (
-    CodAcesso               char(6),  
-    Stock                   char(3),   
+    CodAcesso               char(6),     
     primary key (CodAcesso),
 );
 
@@ -123,12 +118,12 @@ create table Mercado.Reposicao (
     ID                      int,   
 	NIF						char(9)						not null,
 	SSN						char(11)					not null,
-	Email                   varchar(50)                 not null,
+	Email                   varchar(50),
     IDSup                   int,            
     Morada                  varchar(50),            
-    Nome                    varchar(50),            
+    Nome                    varchar(50)					not null,            
     Telemovel               char(9),            
-    Salario                 decimal(6, 2)              not null,
+    Salario                 decimal(6, 2)               not null,
     CodArmazem              char(6)                     not null, 
     DInicio                 date                        not null,
     DFim                    date,                 
@@ -136,6 +131,14 @@ create table Mercado.Reposicao (
 	unique (NIF), unique (SSN),
 );
 
+/*
+	Mercearia
+	Peixaria e Talho
+	Frutas e Legumes
+	Padaria e Pastelaria
+	Beleza e Higiene
+	Limpeza
+*/
 create table Mercado.Seccao (
     Codigo                  char(6),  
     Designacao              varchar(50),
@@ -144,13 +147,14 @@ create table Mercado.Seccao (
 );
 
 create table Mercado.Produto (
-    Codigo                  char(6),  
+    CodProd                 char(3),  
     Preco                   decimal(5, 2)               not null,
     Marca                   varchar(50),   
     Nome                    varchar(50),
-    Localizacao             char(3)                     not null,
+    CodSeccao				char(6),
     Designacao              varchar(50),     
-    primary key (Codigo),
+	Stock                   int,
+    primary key (CodProd),
 );
 
 create table Mercado.Repoe (
@@ -170,6 +174,6 @@ alter table Mercado.Atend_Cliente add constraint Atend_Client_Balcao_ExtTelefone
 alter table Mercado.Reposicao add constraint Reposicao_supID_FK foreign key (IDsup) references Mercado.Resp_Op (ID);
 alter table Mercado.Reposicao add constraint Reposicao_Armazem_CodArmazem_FK foreign key (CodArmazem) references Mercado.Armazem (CodAcesso);
 alter table Mercado.Seccao add constraint Seccao_IDResp_FK foreign key (IDResp) references Mercado.Resp_Op (ID);
-alter table Mercado.Produto add constraint Produto_Cod_FK foreign key (Codigo, Designacao) references Mercado.Seccao (Codigo, Designacao);
+alter table Mercado.Produto add constraint Produto_Cod_FK foreign key (CodSeccao, Designacao) references Mercado.Seccao (Codigo, Designacao);
 alter table Mercado.Repoe add constraint Repoe_Cod_FK foreign key (Codigo, Designacao) references Mercado.Seccao (Codigo, Designacao);
 alter table Mercado.Repoe add constraint Repoe_ID_FK foreign key (IDReposicao) references Mercado.Reposicao (ID);
