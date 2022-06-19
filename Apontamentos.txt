@@ -1,0 +1,12 @@
+** Para saber o cargo atual do funcinário **
+View com DFim = null
+
+
+** INDEXES ** 
+	-- > um índice é ideal para colunas que tenham um tipo de dados de 
+	inteiro e, também, colunas exclusivas ou não nulas
+
+
+** RELATÓRIO **
+	"Não apresentámos os valores dos códigos nos funcionários por questões
+de segurança."
