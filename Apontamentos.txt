@@ -1,10 +1,16 @@
+** TABELAS **
+	Acrescentar check nos salários(?)
+
 ** Para saber o cargo atual do funcinário **
 View com DFim = null
 
 
 ** INDEXES ** 
-	-- > um índice é ideal para colunas que tenham um tipo de dados de 
+	--> um índice é ideal para colunas que tenham um tipo de dados de 
 	inteiro e, também, colunas exclusivas ou não nulas
+	--> Apenas um clusterizado por tabela
+
+	--> Nome, NIF
 
 
 ** RELATÓRIO **
