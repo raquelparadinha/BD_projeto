@@ -8,6 +8,22 @@ as
 	return (select * from Mercado.Funcionario)
 go
 
+/* OBTER A LISTA DE FUNCIONÁRIOS ATUAIS */
+drop function Mercado.obterFuncionariosAtuais
+go
+create function Mercado.obterFuncionariosAtuais() returns table 
+as 
+	return (select ID, NIF, SSN, Email, Morada, Nome, Telemovel from Mercado.Chefe_Loja_atual
+			union
+			select ID, NIF, SSN, Email, Morada, Nome, Telemovel from Mercado.Resp_Op_atual
+			union
+			select ID, NIF, SSN, Email, Morada, Nome, Telemovel from Mercado.Op_Caixa_atual
+			union
+			select ID, NIF, SSN, Email, Morada, Nome, Telemovel from Mercado.Atend_Cliente_atual
+			union
+			select ID, NIF, SSN, Email, Morada, Nome, Telemovel from Mercado.Reposicao_atual)
+go
+
 /* OBTER A LISTA DE CHEFES DE LOJA */
 drop function Mercado.obterChefeLoja
 go
@@ -109,9 +125,9 @@ go
 
 
 /* VERIFICAR QUAL FOI O ÚLTIMO ID ADICIONADO */
-drop function Mercado.maxID
+drop function Mercado.nextID
 go
-create function Mercado.maxID() returns int
+create function Mercado.nextID() returns int
 as
 	begin
 		declare @ID as int;
@@ -119,3 +135,25 @@ as
 		return @ID;
 	end
 go
+
+drop function Mercado.checkNIF
+GO
+CREATE FUNCTION Mercado.checkNIF (@NIF char(9)) RETURNS int
+AS
+	BEGIN
+		DECLARE @counter INT
+		SELECT @counter = COUNT(1) FROM Mercado.Funcionario as F WHERE F.NIF=@NIF
+		RETURN @counter
+	END
+GO
+
+drop function Mercado.checkSSN
+GO
+CREATE FUNCTION Mercado.checkSSN (@SSN char(11)) RETURNS int
+AS
+	BEGIN
+		DECLARE @counter INT
+		SELECT @counter = COUNT(1) FROM Mercado.Funcionario as F WHERE F.SSN=@SSN
+		RETURN @counter
+	END
+GO
