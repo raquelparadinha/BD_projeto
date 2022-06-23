@@ -124,7 +124,7 @@ as
 go
 
 
-/* VERIFICAR QUAL FOI O ÚLTIMO ID ADICIONADO */
+/* VERIFICAR QUAL FOI O ÚLTIMO ID DE FUNCIONÁRIO ADICIONADO */
 drop function Mercado.nextID
 go
 create function Mercado.nextID() returns int
@@ -136,6 +136,19 @@ as
 	end
 go
 
+/* VERIFICAR QUAL FOI O ÚLTIMO ID DE CAIXA ADICIONADO */
+drop function Mercado.nextIDCaixa
+go
+create function Mercado.nextIDCaixa() returns int
+as
+	begin
+		declare @ID as int;
+		select @ID = max(ID) + 1 from Mercado.Caixa;
+		return @ID;
+	end
+go
+
+/* VERIFICAR SE O NIF NÃO ESTÁ REPETIDO */
 drop function Mercado.checkNIF
 GO
 CREATE FUNCTION Mercado.checkNIF (@NIF char(9)) RETURNS int
@@ -147,6 +160,7 @@ AS
 	END
 GO
 
+/* VERIFICAR SE O SSN NÃO ESTÁ REPETIDO */
 drop function Mercado.checkSSN
 GO
 CREATE FUNCTION Mercado.checkSSN (@SSN char(11)) RETURNS int
@@ -157,3 +171,77 @@ AS
 		RETURN @counter
 	END
 GO
+
+/* VERIFICAR SE O CÓDIGO DE PRODUTO NÃO ESTÁ REPETIDO */
+drop function Mercado.checkCodProd
+GO
+CREATE FUNCTION Mercado.checkCodProd (@CodProd char(3)) RETURNS int
+AS
+	BEGIN
+		DECLARE @counter INT
+		SELECT @counter = COUNT(1) FROM Mercado.Produto as P WHERE P.CodProd=@CodProd
+		RETURN @counter
+	END
+GO
+
+/* OBTER O CÓDIGO DE UMA CAIXA ATRAVÉS DO SEU ID */
+drop function Mercado.getCodCaixaFromID
+go
+create function Mercado.getCodCaixaFromID (@IDCaixa int) returns char(6)
+as
+	begin
+		declare @cod char(6);
+		select @cod = CodAcesso from Mercado.Caixa where ID = @IDCaixa;
+		return @cod;
+	end
+go
+
+/* OBTER O CÓDIGO DE UMA SECÇÃO ATRAVÉS DA SUA DESIGNAÇÃO */
+drop function Mercado.getCodSeccaoFromDesignacao
+go
+create function Mercado.getCodSeccaoFromDesignacao (@Designacao varchar(50)) returns char(6)
+as
+	begin
+		declare @cod char(6);
+		select @cod = Codigo from Mercado.Seccao where Designacao = @Designacao;
+		return @cod;
+	end
+go
+
+drop function Mercado.getProdutosSeccao
+go
+create function Mercado.getProdutosSeccao (@Designacao varchar(50)) returns @produtos table (
+	CodProd                 char(3),  
+    Preco                   decimal(5, 2)               not null,
+    Marca                   varchar(150),   
+    Nome                    varchar(150),
+	Stock                   int)
+as 
+	begin 
+		declare @CodProd as char(3);
+		declare @Preco   as decimal(5, 2);
+		declare @Marca   as varchar(150);  
+		declare @Nome    as varchar(150);
+		declare @Desgn	 as varchar(50);
+		declare @Stock   as int;
+
+		declare c cursor
+		for select CodProd, Preco, Marca, Nome, Designacao, Stock from Mercado.Produto;
+
+		open c;
+		fetch c into @CodProd, @Preco, @Marca, @Nome, @Desgn, @Stock;
+
+		while @@FETCH_STATUS = 0
+			begin
+				if @Desgn = @Designacao
+					begin 
+						insert into @produtos values (@CodProd, @Preco, @Marca, @Nome, @Stock);
+					end
+				fetch c into @CodProd, @Preco, @Marca, @Nome, @Desgn, @Stock;
+			end
+
+		close c;
+		deallocate c;
+		return;
+	end
+go
