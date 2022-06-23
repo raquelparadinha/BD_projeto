@@ -8,7 +8,7 @@ namespace ProjetoBD
 {
     class Funcionario
     {
-        private String _Nome, _Id, _Email, _Telemovel, _SSN, _NIF, _Morada, _Salario, _DataInicio, _DataFim, _Id_Sup, _Categoria;
+        private String _Nome, _Id, _Email, _Telemovel, _SSN, _NIF, _Morada, _Salario, _DataInicio, _DataFim, _Id_Sup, _Categoria, _Cargo;
         public String Nome { get => _Nome; set => _Nome = value; }
         public String Id { get => _Id; set => _Id = value; }
         public String Email { get => _Email; set => _Email = value; }
@@ -21,6 +21,7 @@ namespace ProjetoBD
         public String DataFim { get => _DataFim; set => _DataFim = value; }
         public String Id_Sup { get => _Id_Sup; set => _Id_Sup = value; }
         public String Categoria { get => _Categoria; set => _Categoria = value; }
+        public String Cargo { get => _Cargo; set => _Cargo = value; }
 
         public override string ToString()
         {

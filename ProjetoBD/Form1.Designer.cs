@@ -60,11 +60,19 @@
             this.NoEndDate_Button = new System.Windows.Forms.Button();
             this.Confirm_Button = new System.Windows.Forms.Button();
             this.Produtos_Button = new System.Windows.Forms.Button();
-            this.Caixas_Button = new System.Windows.Forms.Button();
-            this.Balcoes_button = new System.Windows.Forms.Button();
             this.func_button = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.add_button = new System.Windows.Forms.Button();
             this.Apagar_button = new System.Windows.Forms.Button();
+            this.total_items_textbox = new System.Windows.Forms.TextBox();
+            this.total_items_label = new System.Windows.Forms.Label();
+            this.total_items_Atuais_label = new System.Windows.Forms.Label();
+            this.Func_atuais_textBox = new System.Windows.Forms.TextBox();
+            this.Estatisticas_button = new System.Windows.Forms.Button();
+            this.Per_RespOp_label = new System.Windows.Forms.Label();
+            this.Per_RespOp_textbox = new System.Windows.Forms.TextBox();
+            this.Per_cheDeLoja_label = new System.Windows.Forms.Label();
+            this.Per_ChefedeLoja_textbox = new System.Windows.Forms.TextBox();
+            this.Cargo2_ComboBox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // Nome_textbox
@@ -145,7 +153,7 @@
             // Salario_label
             // 
             this.Salario_label.AutoSize = true;
-            this.Salario_label.Location = new System.Drawing.Point(282, 215);
+            this.Salario_label.Location = new System.Drawing.Point(282, 284);
             this.Salario_label.Name = "Salario_label";
             this.Salario_label.Size = new System.Drawing.Size(50, 16);
             this.Salario_label.TabIndex = 14;
@@ -155,7 +163,7 @@
             // 
             this.Salario_textbox.BackColor = System.Drawing.Color.LightSteelBlue;
             this.Salario_textbox.Enabled = false;
-            this.Salario_textbox.Location = new System.Drawing.Point(281, 237);
+            this.Salario_textbox.Location = new System.Drawing.Point(281, 306);
             this.Salario_textbox.Name = "Salario_textbox";
             this.Salario_textbox.Size = new System.Drawing.Size(185, 22);
             this.Salario_textbox.TabIndex = 13;
@@ -164,7 +172,7 @@
             // Sup_label
             // 
             this.Sup_label.AutoSize = true;
-            this.Sup_label.Location = new System.Drawing.Point(478, 215);
+            this.Sup_label.Location = new System.Drawing.Point(478, 284);
             this.Sup_label.Name = "Sup_label";
             this.Sup_label.Size = new System.Drawing.Size(91, 16);
             this.Sup_label.TabIndex = 12;
@@ -174,7 +182,7 @@
             // 
             this.Sup_textbox.BackColor = System.Drawing.Color.LightSteelBlue;
             this.Sup_textbox.Enabled = false;
-            this.Sup_textbox.Location = new System.Drawing.Point(477, 237);
+            this.Sup_textbox.Location = new System.Drawing.Point(477, 306);
             this.Sup_textbox.Name = "Sup_textbox";
             this.Sup_textbox.Size = new System.Drawing.Size(189, 22);
             this.Sup_textbox.TabIndex = 11;
@@ -270,7 +278,6 @@
             // Categoria_textbox
             // 
             this.Categoria_textbox.BackColor = System.Drawing.Color.LightSteelBlue;
-            this.Categoria_textbox.Enabled = false;
             this.Categoria_textbox.Location = new System.Drawing.Point(479, 364);
             this.Categoria_textbox.Name = "Categoria_textbox";
             this.Categoria_textbox.Size = new System.Drawing.Size(187, 22);
@@ -290,7 +297,7 @@
             // SSN_label
             // 
             this.SSN_label.AutoSize = true;
-            this.SSN_label.Location = new System.Drawing.Point(285, 282);
+            this.SSN_label.Location = new System.Drawing.Point(284, 215);
             this.SSN_label.Name = "SSN_label";
             this.SSN_label.Size = new System.Drawing.Size(35, 16);
             this.SSN_label.TabIndex = 27;
@@ -301,7 +308,7 @@
             // 
             this.SSN_textbox.BackColor = System.Drawing.Color.LightSteelBlue;
             this.SSN_textbox.Enabled = false;
-            this.SSN_textbox.Location = new System.Drawing.Point(281, 304);
+            this.SSN_textbox.Location = new System.Drawing.Point(280, 237);
             this.SSN_textbox.Name = "SSN_textbox";
             this.SSN_textbox.Size = new System.Drawing.Size(185, 22);
             this.SSN_textbox.TabIndex = 26;
@@ -309,7 +316,7 @@
             // NIF_label
             // 
             this.NIF_label.AutoSize = true;
-            this.NIF_label.Location = new System.Drawing.Point(479, 282);
+            this.NIF_label.Location = new System.Drawing.Point(478, 215);
             this.NIF_label.Name = "NIF_label";
             this.NIF_label.Size = new System.Drawing.Size(28, 16);
             this.NIF_label.TabIndex = 29;
@@ -320,7 +327,7 @@
             // 
             this.NIF_textbox.BackColor = System.Drawing.Color.LightSteelBlue;
             this.NIF_textbox.Enabled = false;
-            this.NIF_textbox.Location = new System.Drawing.Point(478, 304);
+            this.NIF_textbox.Location = new System.Drawing.Point(477, 237);
             this.NIF_textbox.Name = "NIF_textbox";
             this.NIF_textbox.Size = new System.Drawing.Size(188, 22);
             this.NIF_textbox.TabIndex = 28;
@@ -355,6 +362,7 @@
             this.NoEndDate_Button.TabIndex = 33;
             this.NoEndDate_Button.Text = "Sem data de fim";
             this.NoEndDate_Button.UseVisualStyleBackColor = true;
+            this.NoEndDate_Button.Visible = false;
             this.NoEndDate_Button.Click += new System.EventHandler(this.NoEndDate_Button_Click);
             // 
             // Confirm_Button
@@ -378,24 +386,6 @@
             this.Produtos_Button.UseVisualStyleBackColor = true;
             this.Produtos_Button.Click += new System.EventHandler(this.Produtos_Button_Click);
             // 
-            // Caixas_Button
-            // 
-            this.Caixas_Button.Location = new System.Drawing.Point(873, 121);
-            this.Caixas_Button.Name = "Caixas_Button";
-            this.Caixas_Button.Size = new System.Drawing.Size(136, 74);
-            this.Caixas_Button.TabIndex = 36;
-            this.Caixas_Button.Text = "Caixas de Compras";
-            this.Caixas_Button.UseVisualStyleBackColor = true;
-            // 
-            // Balcoes_button
-            // 
-            this.Balcoes_button.Location = new System.Drawing.Point(731, 121);
-            this.Balcoes_button.Name = "Balcoes_button";
-            this.Balcoes_button.Size = new System.Drawing.Size(136, 74);
-            this.Balcoes_button.TabIndex = 37;
-            this.Balcoes_button.Text = "Balcões de Atendimento ao cliente";
-            this.Balcoes_button.UseVisualStyleBackColor = true;
-            // 
             // func_button
             // 
             this.func_button.Enabled = false;
@@ -405,15 +395,17 @@
             this.func_button.TabIndex = 38;
             this.func_button.Text = "Funcionários";
             this.func_button.UseVisualStyleBackColor = true;
+            this.func_button.Click += new System.EventHandler(this.func_button_Click);
             // 
-            // button3
+            // add_button
             // 
-            this.button3.Location = new System.Drawing.Point(835, 441);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(84, 33);
-            this.button3.TabIndex = 39;
-            this.button3.Text = "Adicionar";
-            this.button3.UseVisualStyleBackColor = true;
+            this.add_button.Location = new System.Drawing.Point(835, 441);
+            this.add_button.Name = "add_button";
+            this.add_button.Size = new System.Drawing.Size(84, 33);
+            this.add_button.TabIndex = 39;
+            this.add_button.Text = "Adicionar";
+            this.add_button.UseVisualStyleBackColor = true;
+            this.add_button.Click += new System.EventHandler(this.Add_button_Click);
             // 
             // Apagar_button
             // 
@@ -423,6 +415,102 @@
             this.Apagar_button.TabIndex = 40;
             this.Apagar_button.Text = "Apagar";
             this.Apagar_button.UseVisualStyleBackColor = true;
+            this.Apagar_button.Visible = false;
+            this.Apagar_button.Click += new System.EventHandler(this.Apagar_button_Click);
+            // 
+            // total_items_textbox
+            // 
+            this.total_items_textbox.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.total_items_textbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.total_items_textbox.Enabled = false;
+            this.total_items_textbox.Location = new System.Drawing.Point(203, 352);
+            this.total_items_textbox.Name = "total_items_textbox";
+            this.total_items_textbox.Size = new System.Drawing.Size(22, 15);
+            this.total_items_textbox.TabIndex = 41;
+            // 
+            // total_items_label
+            // 
+            this.total_items_label.AutoSize = true;
+            this.total_items_label.Location = new System.Drawing.Point(12, 351);
+            this.total_items_label.Name = "total_items_label";
+            this.total_items_label.Size = new System.Drawing.Size(135, 16);
+            this.total_items_label.TabIndex = 42;
+            this.total_items_label.Text = "Total de funcionários:";
+            // 
+            // total_items_Atuais_label
+            // 
+            this.total_items_Atuais_label.AutoSize = true;
+            this.total_items_Atuais_label.Location = new System.Drawing.Point(12, 377);
+            this.total_items_Atuais_label.Name = "total_items_Atuais_label";
+            this.total_items_Atuais_label.Size = new System.Drawing.Size(174, 16);
+            this.total_items_Atuais_label.TabIndex = 44;
+            this.total_items_Atuais_label.Text = "Total de funcionários atuais:";
+            this.total_items_Atuais_label.Click += new System.EventHandler(this.label1_Click_1);
+            // 
+            // Func_atuais_textBox
+            // 
+            this.Func_atuais_textBox.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.Func_atuais_textBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.Func_atuais_textBox.Enabled = false;
+            this.Func_atuais_textBox.Location = new System.Drawing.Point(203, 378);
+            this.Func_atuais_textBox.Name = "Func_atuais_textBox";
+            this.Func_atuais_textBox.Size = new System.Drawing.Size(22, 15);
+            this.Func_atuais_textBox.TabIndex = 43;
+            // 
+            // Estatisticas_button
+            // 
+            this.Estatisticas_button.Location = new System.Drawing.Point(873, 120);
+            this.Estatisticas_button.Name = "Estatisticas_button";
+            this.Estatisticas_button.Size = new System.Drawing.Size(136, 30);
+            this.Estatisticas_button.TabIndex = 45;
+            this.Estatisticas_button.Text = "Estatisticas atuais";
+            this.Estatisticas_button.UseVisualStyleBackColor = true;
+            // 
+            // Per_RespOp_label
+            // 
+            this.Per_RespOp_label.AutoSize = true;
+            this.Per_RespOp_label.Location = new System.Drawing.Point(728, 192);
+            this.Per_RespOp_label.Name = "Per_RespOp_label";
+            this.Per_RespOp_label.Size = new System.Drawing.Size(215, 16);
+            this.Per_RespOp_label.TabIndex = 49;
+            this.Per_RespOp_label.Text = "% de Responsável de Operações:";
+            // 
+            // Per_RespOp_textbox
+            // 
+            this.Per_RespOp_textbox.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.Per_RespOp_textbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.Per_RespOp_textbox.Location = new System.Drawing.Point(949, 192);
+            this.Per_RespOp_textbox.Name = "Per_RespOp_textbox";
+            this.Per_RespOp_textbox.Size = new System.Drawing.Size(22, 15);
+            this.Per_RespOp_textbox.TabIndex = 48;
+            // 
+            // Per_cheDeLoja_label
+            // 
+            this.Per_cheDeLoja_label.AutoSize = true;
+            this.Per_cheDeLoja_label.Location = new System.Drawing.Point(728, 170);
+            this.Per_cheDeLoja_label.Name = "Per_cheDeLoja_label";
+            this.Per_cheDeLoja_label.Size = new System.Drawing.Size(134, 16);
+            this.Per_cheDeLoja_label.TabIndex = 47;
+            this.Per_cheDeLoja_label.Text = "% de Chefes de Loja:";
+            // 
+            // Per_ChefedeLoja_textbox
+            // 
+            this.Per_ChefedeLoja_textbox.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.Per_ChefedeLoja_textbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.Per_ChefedeLoja_textbox.Location = new System.Drawing.Point(868, 171);
+            this.Per_ChefedeLoja_textbox.Name = "Per_ChefedeLoja_textbox";
+            this.Per_ChefedeLoja_textbox.Size = new System.Drawing.Size(22, 15);
+            this.Per_ChefedeLoja_textbox.TabIndex = 46;
+            // 
+            // Cargo2_ComboBox
+            // 
+            this.Cargo2_ComboBox.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.Cargo2_ComboBox.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.Cargo2_ComboBox.Location = new System.Drawing.Point(731, 124);
+            this.Cargo2_ComboBox.Name = "Cargo2_ComboBox";
+            this.Cargo2_ComboBox.Size = new System.Drawing.Size(136, 24);
+            this.Cargo2_ComboBox.Sorted = true;
+            this.Cargo2_ComboBox.TabIndex = 50;
             // 
             // Form1
             // 
@@ -430,11 +518,19 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Menu;
             this.ClientSize = new System.Drawing.Size(1030, 480);
+            this.Controls.Add(this.Cargo2_ComboBox);
+            this.Controls.Add(this.Per_RespOp_label);
+            this.Controls.Add(this.Per_RespOp_textbox);
+            this.Controls.Add(this.Per_cheDeLoja_label);
+            this.Controls.Add(this.Per_ChefedeLoja_textbox);
+            this.Controls.Add(this.Estatisticas_button);
+            this.Controls.Add(this.total_items_Atuais_label);
+            this.Controls.Add(this.Func_atuais_textBox);
+            this.Controls.Add(this.total_items_label);
+            this.Controls.Add(this.total_items_textbox);
             this.Controls.Add(this.Apagar_button);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.add_button);
             this.Controls.Add(this.func_button);
-            this.Controls.Add(this.Balcoes_button);
-            this.Controls.Add(this.Caixas_Button);
             this.Controls.Add(this.Produtos_Button);
             this.Controls.Add(this.Confirm_Button);
             this.Controls.Add(this.NoEndDate_Button);
@@ -510,11 +606,19 @@
         private System.Windows.Forms.Button NoEndDate_Button;
         private System.Windows.Forms.Button Confirm_Button;
         private System.Windows.Forms.Button Produtos_Button;
-        private System.Windows.Forms.Button Caixas_Button;
-        private System.Windows.Forms.Button Balcoes_button;
         private System.Windows.Forms.Button func_button;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button add_button;
         private System.Windows.Forms.Button Apagar_button;
+        private System.Windows.Forms.TextBox total_items_textbox;
+        private System.Windows.Forms.Label total_items_label;
+        private System.Windows.Forms.Label total_items_Atuais_label;
+        private System.Windows.Forms.TextBox Func_atuais_textBox;
+        private System.Windows.Forms.Button Estatisticas_button;
+        private System.Windows.Forms.Label Per_RespOp_label;
+        private System.Windows.Forms.TextBox Per_RespOp_textbox;
+        private System.Windows.Forms.Label Per_cheDeLoja_label;
+        private System.Windows.Forms.TextBox Per_ChefedeLoja_textbox;
+        private System.Windows.Forms.ComboBox Cargo2_ComboBox;
     }
 }
 

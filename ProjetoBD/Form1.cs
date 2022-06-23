@@ -14,7 +14,9 @@ namespace ProjetoBD
     public partial class Form1 : Form
     {
         private SqlConnection cn;
+        private String type_func = "";
         SqlCommand command;
+        private int totalItems;
 
         public Form1()
         {
@@ -25,13 +27,14 @@ namespace ProjetoBD
         {
             verifySGBDConnection();
             InitializeCargoBox();
+            InitializeCargoBox2();
 
             updateListFuncionarios();
         }
 
         private SqlConnection getSGBDConnection()
         {
-            return new SqlConnection("data source = tcp:mednat.ieeta.pt\\SQLSERVER, 8101; Initial Catalog = p8g2; uid = p8g2; password = Benfica2001!");
+            return new SqlConnection("data source = tcp:mednat.ieeta.pt\\SQLSERVER, 8101; Initial Catalog = p8g2; uid = p8g2; password = 101581194@BD");
         }
 
         private bool verifySGBDConnection()
@@ -53,12 +56,28 @@ namespace ProjetoBD
             Cargo_Box.Items.Add("Responsável de Operações");
             Cargo_Box.Items.Add("Atendimento ao Cliente");
             Cargo_Box.Items.Add("Reposição");
-            Cargo_Box.Items.Add("Op_Caixa");
+            Cargo_Box.Items.Add("Operador de Caixa");
 
             // Associate the event-handling method with the 
             // SelectedIndexChanged event.
             this.Cargo_Box.SelectedIndexChanged +=
                 new System.EventHandler(Cargo_Box_SelectedIndexChanged);
+        }
+
+        private void InitializeCargoBox2()
+        {
+            Cargo2_ComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            Cargo2_ComboBox.Items.Add("Funcionário");
+            Cargo2_ComboBox.Items.Add("Chefe de Loja");
+            Cargo2_ComboBox.Items.Add("Responsável de Operações");
+            Cargo2_ComboBox.Items.Add("Atendimento ao Cliente");
+            Cargo2_ComboBox.Items.Add("Reposição");
+            Cargo2_ComboBox.Items.Add("Operador de Caixa");
+
+            // Associate the event-handling method with the 
+            // SelectedIndexChanged event.
+            this.Cargo2_ComboBox.SelectedIndexChanged +=
+                new System.EventHandler(Cargo2_ComboBox_SelectedIndexChanged);
         }
 
 
@@ -77,208 +96,220 @@ namespace ProjetoBD
             {
                 Categoria_label.Visible = false;
                 Categoria_textbox.Visible = false;
+                Categoria_textbox.Text = "";
                 Sup_textbox.Enabled = false;
+                Sup_textbox.Text = "";
             }
+        }
+        private void Cargo2_ComboBox_SelectedIndexChanged(object sender,
+        System.EventArgs e)
+        {
+
+            ComboBox comboBox = (ComboBox)sender;
+
+            // Save the selected employee's name, because we will remove
+            // the employee's name from the list.
+            string selectedEmployee = (string)Cargo2_ComboBox.SelectedItem;
+            //MessageBox.Show(selectedEmployee);
+
+            if (selectedEmployee == "Funcionário")
+            {
+                Reset();
+                updateListFuncionarios();
+            }
+
+            if (selectedEmployee == "Chefe de Loja")
+            {
+                Reset();
+                updateListChefesDeLoja();
+            }
+
+
 
             if (selectedEmployee == "Responsável de Operações")
             {
-                Categoria_label.Visible = true;
-                Categoria_label.Text = "Categoria";
-                Categoria_textbox.Visible = true;
-                Sup_textbox.Enabled = true;
+                Reset();
+                updateListResp_op();
             }
 
             if (selectedEmployee == "Atendimento ao Cliente")
             {
-                Categoria_label.Visible = true;
-                Categoria_label.Text = "Extensão de Telefone";
-                Categoria_textbox.Visible = true;
-                Sup_textbox.Enabled = true;
+                Reset();
+                updateListAtend_Cliente();
             }
             if (selectedEmployee == "Reposição")
             {
-                Categoria_label.Visible = false;
-                Categoria_textbox.Visible = false;
-                Sup_textbox.Enabled = true;
+                Reset();
+                updateListRepo();
             }
-            if (selectedEmployee == "Op_Caixa")
+            if (selectedEmployee == "Operador de Caixa")
             {
-                Categoria_label.Visible = true;
-                Categoria_label.Text = "ID da Caixa";
-                Categoria_textbox.Visible = true;
-                Sup_textbox.Enabled = true;
+                Reset();
+                updateListOp_Caixa();
             }
 
 
 
         }
 
-
-
-        //private void getStats()
-        //{
-        //    SqlCommand cmd = new SqlCommand("SELECT COUNT(*) AS Op_Caixa FROM Mercado.Op_Caixa", cn);
-        //    SqlDataReader reader = cmd.ExecuteReader();
-        //    reader.Read();
-        //    String count = reader["Op_Caixa"].ToString();
-        //    Nome_textbox.Text = count;
-        //    MessageBox.Show(count);
-        //    reader.Close();
-        //    cmd = new SqlCommand("SELECT COUNT(*) AS Atend_Cliente FROM Mercado.Atend_Cliente", cn);
-        //    reader = cmd.ExecuteReader();
-        //    reader.Read();
-        //    count = reader["Atend_Cliente"].ToString();
-        //    Nome_textbox.Text = count;
-        //    MessageBox.Show(count);
-        //    reader.Close();
-        //    cmd = new SqlCommand("SELECT COUNT(*) AS Count FROM Mercado.Reposicao", cn);
-        //    reader = cmd.ExecuteReader();
-        //    reader.Read();
-        //    count = reader["Count"].ToString();
-        //    Nome_textbox.Text = count;
-        //    MessageBox.Show(count);
-        //    reader.Close();
-        //}
-
         private void addFuncionário()
         {
-            try
-            {
-
+            //try
+            //{
+                if (!verifySGBDConnection()) { 
+                return; 
+            }
                 SqlDataReader data_reader = null;
                 String nome = Nome_textbox.Text;
-                int Id = Int32.Parse(Id_textbox.Text);
                 String email = Email_textbox.Text;
                 String telemovel = tel_textbox.Text;
                 String morada = Morada_textbox.Text;
-                decimal salario = decimal.Parse(Salario_textbox.Text);
+                String salario = Salario_textbox.Text;
                 String NIF = NIF_textbox.Text;
-                int Id_superior = Int32.Parse(Sup_textbox.Text);
                 String SSN = SSN_textbox.Text;
                 String cargo = Cargo_Box.Text;
                 String categoria = Categoria_textbox.Text;
+                if (Data_inicio.Value >= Data_fim.Value)
+                {
+                    MessageBox.Show("Data de inicio ocorre depois da de fim");
+                }
                 string Inicio = Data_inicio.Value.ToString("yyyy-MM-dd");
                 string Fim = Data_fim.Value.ToString("yyyy-MM-dd");
+
+                //MessageBox.Show(cargo);
+
+
+                //command = new SqlCommand("Mercado.addFunc", cn);
+                //command.CommandType = CommandType.StoredProcedure;
+                //command.Parameters.Add(new SqlParameter("@Nome", nome));
+                //command.Parameters.Add(new SqlParameter("@Email", email));
+                //command.Parameters.Add(new SqlParameter("@Telemovel", telemovel));
+                //command.Parameters.Add(new SqlParameter("@Morada", morada));
+                //command.Parameters.Add(new SqlParameter("@NIF", NIF));
+                //command.Parameters.Add(new SqlParameter("@SSN", SSN));
+                //MessageBox.Show("tentando adicionad@ com sucesso");
+
+                //data_reader = command.ExecuteReader();
+                //MessageBox.Show("Gerente de loja adicionad@ com sucesso");
 
                 switch (cargo)
                 {
 
-                    case "Chefe de loja":
-                        command = new SqlCommand("Mercado.Adicionar_Chefe_Loja", cn);
+                    case ("Chefe de Loja"):
+                        command = new SqlCommand("Mercado.addChefe", cn);
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.Add(new SqlParameter("@Nome", nome));
-                        command.Parameters.Add(new SqlParameter("@Id", Id));
                         command.Parameters.Add(new SqlParameter("@Email", email));
                         command.Parameters.Add(new SqlParameter("@Telemovel", telemovel));
                         command.Parameters.Add(new SqlParameter("@Morada", morada));
                         command.Parameters.Add(new SqlParameter("@Salario", salario));
                         command.Parameters.Add(new SqlParameter("@NIF", NIF));
                         command.Parameters.Add(new SqlParameter("@SSN", SSN));
-                        command.Parameters.Add(new SqlParameter("@DataInicio", Inicio));
-                        command.Parameters.Add(new SqlParameter("@DataFim", Fim));
+                        command.Parameters.Add(new SqlParameter("@DInicio", Inicio));
+                        command.Parameters.Add(new SqlParameter("@DFim", Fim));
 
                         data_reader = command.ExecuteReader();
                         MessageBox.Show("Gerente de loja adicionad@ com sucesso");
-
-
+                        data_reader.Close(); 
+                        updateListFuncionarios();
+                        Reset();
                         break;
 
-                    case "Responsável de Operações":
-                        command = new SqlCommand("Mercado.Adicionar_Resp_Op", cn);
+                case "Responsável de Operações":
+                        command = new SqlCommand("Mercado.addResp", cn);
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.Add(new SqlParameter("@Nome", nome));
-                        command.Parameters.Add(new SqlParameter("@Id", Id));
                         command.Parameters.Add(new SqlParameter("@Email", email));
                         command.Parameters.Add(new SqlParameter("@Telemovel", telemovel));
-                        command.Parameters.Add(new SqlParameter("@morada", morada));
+                        command.Parameters.Add(new SqlParameter("@Morada", morada));
                         command.Parameters.Add(new SqlParameter("@Salario", salario));
                         command.Parameters.Add(new SqlParameter("@NIF", NIF));
                         command.Parameters.Add(new SqlParameter("@SSN", SSN));
-                        command.Parameters.Add(new SqlParameter("@Sup_Id", Id_superior));
                         command.Parameters.Add(new SqlParameter("@Categoria", categoria));
-                        command.Parameters.Add(new SqlParameter("@DataInicio", Inicio));
-                        command.Parameters.Add(new SqlParameter("@DataFim", Fim));
+                        command.Parameters.Add(new SqlParameter("@DInicio", Inicio));
+                        command.Parameters.Add(new SqlParameter("@DFim", Fim));
 
                         data_reader = command.ExecuteReader();
                         MessageBox.Show("Reponsável de Operações adicionad@ com sucesso");
-
-
+                        data_reader.Close();
+                        updateListFuncionarios();
+                        Reset();
                         break;
 
-                    case "Atendimento ao Cliente":
-                        command = new SqlCommand("Mercado.Adicionar_Atend_Cliente" + cargo, cn);
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.Add(new SqlParameter("@Nome", nome));
-                        command.Parameters.Add(new SqlParameter("@Id", Id));
-                        command.Parameters.Add(new SqlParameter("@Email", email));
-                        command.Parameters.Add(new SqlParameter("@Telemovel", telemovel));
-                        command.Parameters.Add(new SqlParameter("@morada", morada));
-                        command.Parameters.Add(new SqlParameter("@Salario", salario));
-                        command.Parameters.Add(new SqlParameter("@NIF", NIF));
-                        command.Parameters.Add(new SqlParameter("@SSN", SSN));
-                        command.Parameters.Add(new SqlParameter("@Sup_Id", Id_superior));
-                        command.Parameters.Add(new SqlParameter("@Ext_tel", categoria));
-                        command.Parameters.Add(new SqlParameter("@DataInicio", Inicio));
-                        command.Parameters.Add(new SqlParameter("@DataFim", Fim));
+                case "Atendimento ao Cliente":
+                    command = new SqlCommand("Mercado.Adicionar_Atend_Cliente" + cargo, cn);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@Nome", nome));
+                    command.Parameters.Add(new SqlParameter("@Email", email));
+                    command.Parameters.Add(new SqlParameter("@Telemovel", telemovel));
+                    command.Parameters.Add(new SqlParameter("@Morada", morada));
+                    command.Parameters.Add(new SqlParameter("@Salario", salario));
+                    command.Parameters.Add(new SqlParameter("@NIF", NIF));
+                    command.Parameters.Add(new SqlParameter("@SSN", SSN));
+                    command.Parameters.Add(new SqlParameter("@ExtTelefone", categoria));
+                    command.Parameters.Add(new SqlParameter("@DInicio", Inicio));
+                    command.Parameters.Add(new SqlParameter("@DFim", Fim));
 
-                        data_reader = command.ExecuteReader();
-                        MessageBox.Show("Atendimento ao Cliente adicionad@ com sucesso");
+                    data_reader = command.ExecuteReader();
+                    MessageBox.Show("Atendimento ao Cliente adicionad@ com sucesso");
+                    data_reader.Close();
+                    updateListFuncionarios();
+                    Reset();
+                    break;
 
+                case "Reposição":
+                    command = new SqlCommand("Mercado.addReposicao", cn);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@Nome", nome));
+                    command.Parameters.Add(new SqlParameter("@Email", email));
+                    command.Parameters.Add(new SqlParameter("@Telemovel", telemovel));
+                    command.Parameters.Add(new SqlParameter("@Morada", morada));
+                    command.Parameters.Add(new SqlParameter("@Salario", salario));
+                    command.Parameters.Add(new SqlParameter("@NIF", NIF));
+                    command.Parameters.Add(new SqlParameter("@SSN", SSN));
+                    command.Parameters.Add(new SqlParameter("@DInicio", Inicio));
+                    command.Parameters.Add(new SqlParameter("@DFim", Fim));
 
-                        break;
+                    data_reader = command.ExecuteReader();
+                    MessageBox.Show("Reposição adicionad@ com sucesso");
+                    data_reader.Close();
+                    updateListFuncionarios();
+                    Reset();
+                    break;
 
-                    case "Reposição":
-                        command = new SqlCommand("Mercado.Adicionar_Reposicao" + cargo, cn);
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.Add(new SqlParameter("@Nome", nome));
-                        command.Parameters.Add(new SqlParameter("@Id", Id));
-                        command.Parameters.Add(new SqlParameter("@Email", email));
-                        command.Parameters.Add(new SqlParameter("@Telemovel", telemovel));
-                        command.Parameters.Add(new SqlParameter("@morada", morada));
-                        command.Parameters.Add(new SqlParameter("@Salario", salario));
-                        command.Parameters.Add(new SqlParameter("@NIF", NIF));
-                        command.Parameters.Add(new SqlParameter("@SSN", SSN));
-                        command.Parameters.Add(new SqlParameter("@Sup_Id", Id_superior));
-                        command.Parameters.Add(new SqlParameter("@DataInicio", Inicio));
-                        command.Parameters.Add(new SqlParameter("@DataFim", Fim));
+                case "Operador de Caixa":
+                    command = new SqlCommand("Mercado.addOpCaixa", cn);
+                    command.CommandType = CommandType.StoredProcedure;
+                    command.Parameters.Add(new SqlParameter("@Nome", nome));
+                    command.Parameters.Add(new SqlParameter("@Email", email));
+                    command.Parameters.Add(new SqlParameter("@Telemovel", telemovel));
+                    command.Parameters.Add(new SqlParameter("@Morada", morada));
+                    command.Parameters.Add(new SqlParameter("@Salario", salario));
+                    command.Parameters.Add(new SqlParameter("@NIF", NIF));
+                    command.Parameters.Add(new SqlParameter("@SSN", SSN));
+                    command.Parameters.Add(new SqlParameter("@IDCaixa", categoria));
+                    command.Parameters.Add(new SqlParameter("@DInicio", Inicio));
+                    command.Parameters.Add(new SqlParameter("@DFim", Fim));
 
-                        data_reader = command.ExecuteReader();
-                        MessageBox.Show("Reposição adicionad@ com sucesso");
-
-
-                        break;
-
-                    case "Operad@r de Caixa":
-                        command = new SqlCommand("Mercado.Adicionar_Op_Caixa", cn);
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.Add(new SqlParameter("@Nome", nome));
-                        command.Parameters.Add(new SqlParameter("@Id", Id));
-                        command.Parameters.Add(new SqlParameter("@Email", email));
-                        command.Parameters.Add(new SqlParameter("@Telemovel", telemovel));
-                        command.Parameters.Add(new SqlParameter("@morada", morada));
-                        command.Parameters.Add(new SqlParameter("@Salario", salario));
-                        command.Parameters.Add(new SqlParameter("@NIF", NIF));
-                        command.Parameters.Add(new SqlParameter("@SSN", SSN));
-                        command.Parameters.Add(new SqlParameter("@Sup_Id", Id_superior));
-                        command.Parameters.Add(new SqlParameter("@Id_caixa", categoria));
-                        command.Parameters.Add(new SqlParameter("@DataInicio", Inicio));
-                        command.Parameters.Add(new SqlParameter("@DataFim", Fim));
-
-                        data_reader = command.ExecuteReader();
-                        MessageBox.Show("Caixa adicionad@ com sucesso");
-
-
-                        break;
-                }
+                    data_reader = command.ExecuteReader();
+                    MessageBox.Show("Operador de Caixa adicionad@ com sucesso");
+                    data_reader.Close();
+                    updateListFuncionarios();
+                    Reset();
+                    break;
+                default:
+                    break;
             }
-            catch
-            {
-                Bad_Data_Cancel();
-            }
+                //}
+            //        catch
+            //{
+            //    Bad_Data_Cancel();
+            //}
         }
 
         private void updateListFuncionarios()
-        {
+        {   
+            totalItems = 0;
             if (!verifySGBDConnection())
             {
                 return;
@@ -297,45 +328,363 @@ namespace ProjetoBD
                 funcionario.SSN = reader["SSN"].ToString();
                 funcionario.NIF = reader["NIF"].ToString();
                 funcionario.Morada = reader["Morada"].ToString();
-                //funcionario.Salario = reader["Salario"].ToString();
-                //funcionario.DataInicio = reader["DInicio"].ToString();
-                //funcionario.DataFim = reader["DFim"].ToString();
-                //if (reader["IDSup"].ToString() != null)
-                //{
-                //    funcionario.Id_Sup = reader["IDSup"].ToString();
-                //}
-                //if (reader["Categoria"].ToString() != null)
-                //{
-                //    funcionario.Categoria = reader["Categoria"].ToString();
-                //}
 
-
+                totalItems++;
                 Func_list.Items.Add(funcionario);
 
             }
+            total_items_label.Text = "Total de funcionários:";
+            total_items_textbox.Text = totalItems.ToString();
             reader.Close();
             cn.Close();
+            totalItems = 0;
+            try
+            {
+                this.Func_list.SelectedIndexChanged -= new EventHandler(Prod_list_SelectedIndexChanged);
+            }
+            catch { }
+            try
+            {
+                this.Func_list.SelectedIndexChanged -=
+                    new System.EventHandler(Func_list_SelectedIndexChanged);
+            }
+            catch { }
 
-            
             this.Func_list.SelectedIndexChanged +=
                 new System.EventHandler(Func_list_SelectedIndexChanged);
-            //if (!verifySGBDConnection())
-            //{
-            //    return;
-            //}
-            //SqlCommand cmd2 = new SqlCommand("select * from Biblestia.obterFuncionariosAtuais('" + biblioteca.Nome + "')", cn);
-            //SqlDataReader reader2 = cmd2.ExecuteReader();
-            //reader2.Read();
-            //String nFuncionariosAtuais = reader2["FuncionariosAtuais"].ToString();
-            //double percentagemAtuais = int.Parse(nFuncionariosAtuais);
-            //double total = listBox1.Items.Count;
-            //double output = percentagemAtuais / total * 100;
-            //textBox8.Text = listBox1.Items.Count.ToString();
-            //textBox9.Text = nFuncionariosAtuais;
-            //textBox10.Text = String.Format("{0:0.##}", output);
-            //reader2.Close();
-            //cn.Close();
+            if (!verifySGBDConnection())
+            {
+                return;
+            }
+            SqlCommand cmd2 = new SqlCommand("select * from Mercado.obterFuncionariosAtuais()", cn);
+            SqlDataReader reader2 = cmd2.ExecuteReader();
+            reader2.Read();
+            while (reader2.Read())
+            {
+                totalItems++;
+            }
+            total_items_Atuais_label.Text = "Total de funcionários Atuais:";
+            Func_atuais_textBox.Text = totalItems.ToString();
+
+            reader2.Close();
+            cn.Close();
         }
+
+        private void updateListChefesDeLoja()
+        {
+            totalItems = 0;
+            if (!verifySGBDConnection())
+            {
+                return;
+            }
+
+            Func_list.Items.Clear();
+            SqlCommand cmd = new SqlCommand("select * from Mercado.obterChefeLoja()", cn);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                Funcionario funcionario = new Funcionario();
+                funcionario.Nome = reader["Nome"].ToString();
+                funcionario.Id = reader["ID"].ToString();
+                funcionario.Email = reader["Email"].ToString();
+                funcionario.Telemovel = reader["Telemovel"].ToString();
+                funcionario.SSN = reader["SSN"].ToString();
+                funcionario.NIF = reader["NIF"].ToString();
+                funcionario.Morada = reader["Morada"].ToString();
+                funcionario.Salario = reader["Salario"].ToString();
+                funcionario.DataInicio = reader["DInicio"].ToString();
+                funcionario.DataFim = reader["DFim"].ToString();
+                funcionario.Cargo = "Chefe de Loja";
+
+                totalItems++;
+                Func_list.Items.Add(funcionario);
+
+            }
+            total_items_label.Text = "Total de Chefes de Loja:";
+            total_items_textbox.Text = totalItems.ToString();
+            reader.Close();
+            cn.Close();
+            totalItems = 0;
+            try
+            {
+                this.Cargo2_ComboBox.SelectedIndexChanged -=
+                    new System.EventHandler(Cargo2_ComboBox_SelectedIndexChanged);
+            }
+            catch { }
+            try
+            {
+                this.Cargo2_ComboBox.SelectedIndexChanged +=
+                    new System.EventHandler(Cargo2_ComboBox_SelectedIndexChanged);
+            }
+            catch { }
+            if (!verifySGBDConnection())
+            {
+                return;
+            }
+            SqlCommand cmd2 = new SqlCommand("select * from Mercado.Chefe_Loja_atual", cn);
+            SqlDataReader reader2 = cmd2.ExecuteReader();
+            while (reader2.Read())
+            {   
+                totalItems++;
+            }
+            total_items_Atuais_label.Text = "Chefes de loja Atuais:";
+            Func_atuais_textBox.Text = totalItems.ToString();
+            reader2.Close();
+            cn.Close();
+        }
+
+        private void updateListResp_op()
+        {
+            totalItems = 0;
+            if (!verifySGBDConnection())
+            {
+                return;
+            }
+
+            Func_list.Items.Clear();
+            SqlCommand cmd = new SqlCommand("select * from Mercado.obterRespOp()", cn);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                Funcionario funcionario = new Funcionario();
+                funcionario.Nome = reader["Nome"].ToString();
+                funcionario.Id = reader["ID"].ToString();
+                funcionario.Email = reader["Email"].ToString();
+                funcionario.Telemovel = reader["Telemovel"].ToString();
+                funcionario.SSN = reader["SSN"].ToString();
+                funcionario.NIF = reader["NIF"].ToString();
+                funcionario.Morada = reader["Morada"].ToString();
+                funcionario.Salario = reader["Salario"].ToString();
+                funcionario.DataInicio = reader["DInicio"].ToString();
+                funcionario.DataFim = reader["DFim"].ToString();
+                funcionario.Id_Sup = reader["IDSup"].ToString();
+                funcionario.Categoria = reader["Categoria"].ToString();
+                funcionario.Cargo = "Responsável de Operações";
+
+                totalItems++;
+                Func_list.Items.Add(funcionario);
+
+            }
+            total_items_label.Text = "Total de Resp Op:";
+            total_items_textbox.Text = totalItems.ToString();
+            reader.Close();
+            cn.Close();
+            totalItems = 0;
+            try
+            {
+                this.Cargo2_ComboBox.SelectedIndexChanged -=
+                    new System.EventHandler(Cargo2_ComboBox_SelectedIndexChanged);
+            }
+            catch { }
+
+            this.Cargo2_ComboBox.SelectedIndexChanged +=
+                new System.EventHandler(Cargo2_ComboBox_SelectedIndexChanged);
+            if (!verifySGBDConnection())
+            {
+                return;
+            }
+            SqlCommand cmd2 = new SqlCommand("select * from Mercado.Resp_Op_atual", cn);
+            SqlDataReader reader2 = cmd2.ExecuteReader();
+            while (reader2.Read())
+            {
+                totalItems++;
+            }
+            total_items_Atuais_label.Text = "Resp Op Atuais:";
+            Func_atuais_textBox.Text = totalItems.ToString();
+
+            reader2.Close();
+            cn.Close();
+        }
+
+        private void updateListAtend_Cliente()
+        {
+            totalItems = 0;
+            if (!verifySGBDConnection())
+            {
+                return;
+            }
+
+            Func_list.Items.Clear();
+            SqlCommand cmd = new SqlCommand("select * from Mercado.obterAtendCliente()", cn);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                Funcionario funcionario = new Funcionario();
+                funcionario.Nome = reader["Nome"].ToString();
+                funcionario.Id = reader["ID"].ToString();
+                funcionario.Email = reader["Email"].ToString();
+                funcionario.Telemovel = reader["Telemovel"].ToString();
+                funcionario.SSN = reader["SSN"].ToString();
+                funcionario.NIF = reader["NIF"].ToString();
+                funcionario.Morada = reader["Morada"].ToString();
+                funcionario.Salario = reader["Salario"].ToString();
+                funcionario.DataInicio = reader["DInicio"].ToString();
+                funcionario.DataFim = reader["DFim"].ToString();
+                funcionario.Id_Sup = reader["IDSup"].ToString();
+                funcionario.Categoria = reader["ExtTelefone"].ToString();
+                funcionario.Cargo = "Atendimento ao Cliente";
+
+                totalItems++;
+                Func_list.Items.Add(funcionario);
+
+            }
+            total_items_label.Text = "Total de Atend Cliente:";
+            total_items_textbox.Text = totalItems.ToString();
+            reader.Close();
+            cn.Close();
+            totalItems = 0;
+            try
+            {
+                this.Cargo2_ComboBox.SelectedIndexChanged -=
+                    new System.EventHandler(Cargo2_ComboBox_SelectedIndexChanged);
+            }
+            catch { }
+
+            this.Cargo2_ComboBox.SelectedIndexChanged +=
+                new System.EventHandler(Cargo2_ComboBox_SelectedIndexChanged);
+            if (!verifySGBDConnection())
+            {
+                return;
+            }
+            SqlCommand cmd2 = new SqlCommand("select * from Mercado.Atend_Cliente_atual", cn);
+            SqlDataReader reader2 = cmd2.ExecuteReader();
+            while (reader2.Read())
+            {
+                totalItems++;
+            }
+            total_items_Atuais_label.Text = "Atend Cliente Atuais:";
+            Func_atuais_textBox.Text = totalItems.ToString();
+
+            reader2.Close();
+            cn.Close();
+        }
+
+        private void updateListRepo()
+        {
+            totalItems = 0;
+            if (!verifySGBDConnection())
+            {
+                return;
+            }
+
+            Func_list.Items.Clear();
+            SqlCommand cmd = new SqlCommand("select * from Mercado.obterReposicao()", cn);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                Funcionario funcionario = new Funcionario();
+                funcionario.Nome = reader["Nome"].ToString();
+                funcionario.Id = reader["ID"].ToString();
+                funcionario.Email = reader["Email"].ToString();
+                funcionario.Telemovel = reader["Telemovel"].ToString();
+                funcionario.SSN = reader["SSN"].ToString();
+                funcionario.NIF = reader["NIF"].ToString();
+                funcionario.Morada = reader["Morada"].ToString();
+                funcionario.Salario = reader["Salario"].ToString();
+                funcionario.DataInicio = reader["DInicio"].ToString();
+                funcionario.DataFim = reader["DFim"].ToString();
+                funcionario.Id_Sup = reader["IDSup"].ToString();
+                funcionario.Cargo = "Reposição";
+
+                totalItems++;
+                Func_list.Items.Add(funcionario);
+
+            }
+            total_items_label.Text = "Total de Reposição:";
+            total_items_textbox.Text = totalItems.ToString();
+            reader.Close();
+            cn.Close();
+            totalItems = 0;
+            try
+            {
+                this.Cargo2_ComboBox.SelectedIndexChanged -=
+                    new System.EventHandler(Cargo2_ComboBox_SelectedIndexChanged);
+            }
+            catch { }
+
+            this.Cargo2_ComboBox.SelectedIndexChanged +=
+                new System.EventHandler(Cargo2_ComboBox_SelectedIndexChanged);
+            if (!verifySGBDConnection())
+            {
+                return;
+            }
+            SqlCommand cmd2 = new SqlCommand("select * from Mercado.Reposicao_atual", cn);
+            SqlDataReader reader2 = cmd2.ExecuteReader();
+            while (reader2.Read())
+            {
+                totalItems++;
+            }
+            total_items_Atuais_label.Text = "Reposição Atuais:";
+            Func_atuais_textBox.Text = totalItems.ToString();
+
+            reader2.Close();
+            cn.Close();
+        }
+
+        private void updateListOp_Caixa()
+        {
+            totalItems = 0;
+            if (!verifySGBDConnection())
+            {
+                return;
+            }
+
+            Func_list.Items.Clear();
+            SqlCommand cmd = new SqlCommand("select * from Mercado.obterOpCaixa()", cn);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                Funcionario funcionario = new Funcionario();
+                funcionario.Nome = reader["Nome"].ToString();
+                funcionario.Id = reader["ID"].ToString();
+                funcionario.Email = reader["Email"].ToString();
+                funcionario.Telemovel = reader["Telemovel"].ToString();
+                funcionario.SSN = reader["SSN"].ToString();
+                funcionario.NIF = reader["NIF"].ToString();
+                funcionario.Morada = reader["Morada"].ToString();
+                funcionario.Salario = reader["Salario"].ToString();
+                funcionario.DataInicio = reader["DInicio"].ToString();
+                funcionario.DataFim = reader["DFim"].ToString();
+                funcionario.Id_Sup = reader["IDSup"].ToString();
+                funcionario.Categoria = reader["IDCaixa"].ToString();
+                funcionario.Cargo = "Operador de Caixa";
+
+                totalItems++;
+                Func_list.Items.Add(funcionario);
+
+            }
+            total_items_label.Text = "Total de Op de Caixa:";
+            total_items_textbox.Text = totalItems.ToString();
+            reader.Close();
+            cn.Close();
+            totalItems = 0;
+            try
+            {
+                this.Cargo2_ComboBox.SelectedIndexChanged -=
+                    new System.EventHandler(Cargo2_ComboBox_SelectedIndexChanged);
+            }
+            catch { }
+
+            this.Cargo2_ComboBox.SelectedIndexChanged +=
+                new System.EventHandler(Cargo2_ComboBox_SelectedIndexChanged);
+            if (!verifySGBDConnection())
+            {
+                return;
+            }
+            SqlCommand cmd2 = new SqlCommand("select * from Mercado.Op_Caixa_atual", cn);
+            SqlDataReader reader2 = cmd2.ExecuteReader();
+            while (reader2.Read())
+            {
+                totalItems++;
+            }
+            total_items_Atuais_label.Text = "Opcaixa Atuais:";
+            Func_atuais_textBox.Text = totalItems.ToString();
+
+            reader2.Close();
+            cn.Close();
+        }
+
+
 
 
         private void Func_list_SelectedIndexChanged(object sender,
@@ -348,7 +697,30 @@ System.EventArgs e)
             Funcionario selectedEmployee = (Funcionario)Func_list.SelectedItem;
             //MessageBox.Show(selectedEmployee);
             if (selectedEmployee != null)
-            {
+            {   
+                if (selectedEmployee.Cargo == "Responsável de Operações" || selectedEmployee.Cargo == "Atendimento ao Cliente" || selectedEmployee.Cargo == "Operador de Caixa")
+                {
+                    Categoria_textbox.Visible = true;
+                    Categoria_label.Visible = true;
+                }
+                else
+                {
+                    Categoria_textbox.Visible = false;
+                    Categoria_label.Visible = false;
+                }
+                if(selectedEmployee.Cargo == "Responsável de Operações") {
+                    Categoria_label.Text = "Categoria";   
+                }
+                else if (selectedEmployee.Cargo == "Atendimento ao Cliente")
+                {
+                    Categoria_label.Text = "Extensão de telefone";
+                }
+                else if (selectedEmployee.Cargo == "Operador de Caixa")
+                {
+                    Categoria_label.Text = "ID de caixa";
+                }
+
+
                 if (selectedEmployee.Id_Sup == null)
                 {
                     Categoria_label.Visible = false;
@@ -361,8 +733,6 @@ System.EventArgs e)
                 }
                 else
                 {
-                    //Sup_label.Visible = true;
-                    //Sup_textbox.Visible = true;
                     Sup_textbox.Text = selectedEmployee.Id_Sup;
                 }
 
@@ -372,15 +742,18 @@ System.EventArgs e)
                 Email_textbox.Text = selectedEmployee.Email;
                 tel_textbox.Text = selectedEmployee.Telemovel;
                 Morada_textbox.Text = selectedEmployee.Morada;
-                //Salario_textbox.Text = selectedEmployee.Salario;
+                Salario_textbox.Text = selectedEmployee.Salario;
                 SSN_textbox.Text = selectedEmployee.SSN;
                 NIF_textbox.Text = selectedEmployee.NIF;
+                Cargo_Box.Text = selectedEmployee.Cargo;
+                Categoria_textbox.Text = selectedEmployee.Categoria;
             }
         }
 
 
         private void updateListProdutos()
         {
+            totalItems = 0;
             if (!verifySGBDConnection())
             {
                 return;
@@ -401,10 +774,11 @@ System.EventArgs e)
                 produto.Preco = reader["Preco"].ToString();
 
 
-
+                totalItems++;
                 Func_list.Items.Add(produto);
 
             }
+            total_items_textbox.Text = totalItems.ToString();
             reader.Close();
             cn.Close();
             try
@@ -437,12 +811,50 @@ System.EventArgs e)
             }
         }
 
+        private void Add_button_Click(object sender, EventArgs e)
+        {
+            type_func = "add";
+            Change_func.Enabled = false;
+            Confirm_Button.Visible = true;
+            NoEndDate_Button.Visible = true;
+            Cancel_Button.Visible = true;
+            Func_list.Enabled = false;
+            Nome_textbox.Enabled = true;
+            Id_textbox.Enabled = false;
+            Email_textbox.Enabled = true;
+            tel_textbox.Enabled = true;
+            Morada_textbox.Enabled = true;
+            Salario_textbox.Enabled = true;
+            Sup_textbox.Enabled = true;
+            SSN_textbox.Enabled = true;
+            NIF_textbox.Enabled = true;
+            Cargo_Box.Enabled = true;
+            Data_inicio.Enabled = true;
+            Data_fim.Enabled = true;
+            NoEndDate_Button.Enabled = true;
+            Change_func.Enabled = false;
+            add_button.Enabled = false;
+            Apagar_button.Enabled = false;
 
+            Nome_textbox.Text = "";
+            Id_textbox.Text = "";
+            Email_textbox.Text = "";
+            tel_textbox.Text = "";
+            Morada_textbox.Text = "";
+            Salario_textbox.Text = "";
+            NIF_textbox.Text = "";
+            Sup_textbox.Text = "";
+            SSN_textbox.Text = "";
+            Cargo_Box.SelectedItem = null;
+            Categoria_textbox.Text = "";
+            Func_list.SelectedIndex = -1;
+        }
 
 
 
         private void Change_func_Click(object sender, EventArgs e)
         {
+            type_func = "change";
             if (Func_list.SelectedIndex != -1)
             {   
 
@@ -464,17 +876,23 @@ System.EventArgs e)
                 Data_inicio.Enabled = true;
                 Data_fim.Enabled = true;
                 NoEndDate_Button.Enabled = true;
+                Change_func.Enabled = false;
+                add_button.Enabled = false;
+                Apagar_button.Enabled = false;
             }
-
-
-
-
         }
+
+
         private void Cancel_Button_Click(object sender, EventArgs e)
+        {
+            Reset();
+        }
+        
+        private void Reset()
         {
             Change_func.Enabled = true;
             NoEndDate_Button.Visible = false;
-            Confirm_Button.Visible=false;
+            Confirm_Button.Visible = false;
             Cancel_Button.Visible = false;
             Func_list.Enabled = true;
             Nome_textbox.Enabled = false;
@@ -493,7 +911,9 @@ System.EventArgs e)
             Data_inicio.Enabled = false;
             Data_fim.Enabled = false;
             NoEndDate_Button.Enabled = false;
-
+            Change_func.Enabled = true;
+            add_button.Enabled = true;
+            Apagar_button.Enabled = true;
 
 
             Nome_textbox.Text = "";
@@ -508,13 +928,15 @@ System.EventArgs e)
             Cargo_Box.SelectedItem = null;
             Categoria_textbox.Text = "";
             Func_list.SelectedIndex = -1;
-
-
         }
 
         private void Confirm_Button_Click(object sender, EventArgs e)
-        {   
-            ChangeFuncionario();
+        {
+            if (type_func == "change") {
+                ChangeFuncionario(); 
+            }
+            else if (type_func == "add")
+                addFuncionário();
         }
 
         private void NoEndDate_Button_Click(object sender, EventArgs e)
@@ -538,8 +960,10 @@ System.EventArgs e)
         private void Bad_Data_Cancel()
         {
 
-            MessageBox.Show("Algum dado passado de forma incorreta");
+            MessageBox.Show("Algum dado foi passado de forma incorreta");
             Change_func.Enabled = true;
+            Confirm_Button.Enabled = true;
+            Apagar_button.Enabled = true;
             NoEndDate_Button.Visible = false;
             Confirm_Button.Visible = false;
             Cancel_Button.Visible = false;
@@ -607,7 +1031,6 @@ System.EventArgs e)
                         command = new SqlCommand("Mercado.Alterar_Chefe_de_Loja", cn);
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.Add(new SqlParameter("@Nome", nome));
-                        command.Parameters.Add(new SqlParameter("@Id", Id));
                         command.Parameters.Add(new SqlParameter("@Email", email));
                         command.Parameters.Add(new SqlParameter("@Telemovel", telemovel));
                         command.Parameters.Add(new SqlParameter("@Morada", morada));
@@ -688,7 +1111,7 @@ System.EventArgs e)
 
                         break;
 
-                    case "Operad@r de Caixa":
+                    case "Operador de Caixa":
                         command = new SqlCommand("Mercado.Alterar_Op_Caixa", cn);
                         command.CommandType = CommandType.StoredProcedure;
                         command.Parameters.Add(new SqlParameter("@Nome", nome));
@@ -717,6 +1140,67 @@ System.EventArgs e)
             }
         }
 
+        private void Apagar_button_Click(object sender, EventArgs e)
+        {
+                apagar_prod();
+        }
+
+        private void apagar_prod()
+        {
+           // cona
+        }
+
+
+        private void func_button_Click(object sender, EventArgs e)
+        {
+            Email_label.Text = "Email";
+            Id_label.Text = "ID";
+            tele_label.Text = "Nº Telemovel";
+            Morada_label.Text = "Morada";
+            Salario_label.Text = "Salario";
+            Sup_label.Text = "ID do Superior";
+            SSN_label.Text = "SSN";
+            NIF_label.Text = "NIF";
+            Cargo_label.Text = "Cargo";
+            Categoria_label.Text = "Categoria";
+            total_items_label.Text = "Total de Funcionários:";
+            Nome_textbox.Text = "";
+            Email_textbox.Text = "";
+            Id_textbox.Text = "";
+            tel_textbox.Text = "";
+            Morada_textbox.Text = "";
+            Salario_textbox.Text = "";
+            Sup_textbox.Text = "";
+            NIF_textbox.Text = "";
+            SSN_textbox.Text = "";
+            NIF_textbox.Text = "";
+            Cargo_Box.SelectedIndex = -1;
+            Categoria_textbox.Text = "";
+
+            total_items_Atuais_label.Visible = true;
+            Func_atuais_textBox.Visible = true;
+            func_button.Enabled = false;
+            Sup_label.Visible = true;
+            Sup_textbox.Visible = true;
+            SSN_label.Visible = true;
+            SSN_textbox.Visible = true;
+            NIF_label.Visible = true;
+            NIF_textbox.Visible = true;
+            Cargo_label.Visible = true;
+            Cargo_Box.Visible = true;
+            Categoria_label.Visible = true;
+            Categoria_textbox.Visible = true;
+            Inicio_label.Visible = true;
+            Data_inicio.Visible = true;
+            Fim_Name.Visible = true;
+            Data_fim.Visible = true;
+            NoEndDate_Button.Visible = true;
+            Produtos_Button.Enabled = true;
+            Apagar_button.Visible = false;
+            updateListFuncionarios();
+        }
+
+
         private void Produtos_Button_Click(object sender, EventArgs e)
         {
             Email_label.Text = "Marca";
@@ -738,6 +1222,9 @@ System.EventArgs e)
             Cargo_Box.SelectedIndex = -1;
             Categoria_textbox.Text = "";
 
+            total_items_label.Text = "Total de Produtos:";
+            total_items_Atuais_label.Visible = false;
+            Func_atuais_textBox.Visible = false;
             func_button.Enabled = true;
             Sup_label.Visible = false;
             Sup_textbox.Visible = false;
@@ -755,9 +1242,11 @@ System.EventArgs e)
             Data_fim.Visible = false;
             NoEndDate_Button.Visible = false;
             Produtos_Button.Enabled = false;
+            Apagar_button.Visible = true;
             updateListProdutos();
 
         }
+
 
         private void label1_Click(object sender, EventArgs e)
         {
@@ -797,6 +1286,19 @@ System.EventArgs e)
         private void label13_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void label1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Estatisticas_button_Click(object sender, EventArgs e)
+        {
+            if(Produtos_Button.Enabled == true)
+            {
+
+            }
         }
     }
 }
