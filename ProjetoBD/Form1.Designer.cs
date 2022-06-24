@@ -158,6 +158,7 @@
             this.Salario_label.Size = new System.Drawing.Size(50, 16);
             this.Salario_label.TabIndex = 14;
             this.Salario_label.Text = "Salário";
+            this.Salario_label.Visible = false;
             // 
             // Salario_textbox
             // 
@@ -167,6 +168,7 @@
             this.Salario_textbox.Name = "Salario_textbox";
             this.Salario_textbox.Size = new System.Drawing.Size(185, 22);
             this.Salario_textbox.TabIndex = 13;
+            this.Salario_textbox.Visible = false;
             this.Salario_textbox.TextChanged += new System.EventHandler(this.textBox6_TextChanged);
             // 
             // Sup_label
@@ -177,6 +179,7 @@
             this.Sup_label.Size = new System.Drawing.Size(91, 16);
             this.Sup_label.TabIndex = 12;
             this.Sup_label.Text = "ID do superior";
+            this.Sup_label.Visible = false;
             // 
             // Sup_textbox
             // 
@@ -186,6 +189,7 @@
             this.Sup_textbox.Name = "Sup_textbox";
             this.Sup_textbox.Size = new System.Drawing.Size(189, 22);
             this.Sup_textbox.TabIndex = 11;
+            this.Sup_textbox.Visible = false;
             // 
             // tele_label
             // 
@@ -254,6 +258,7 @@
             this.Cargo_Box.Size = new System.Drawing.Size(185, 24);
             this.Cargo_Box.Sorted = true;
             this.Cargo_Box.TabIndex = 19;
+            this.Cargo_Box.Visible = false;
             // 
             // Cargo_label
             // 
@@ -263,6 +268,7 @@
             this.Cargo_label.Size = new System.Drawing.Size(44, 16);
             this.Cargo_label.TabIndex = 20;
             this.Cargo_label.Text = "Cargo";
+            this.Cargo_label.Visible = false;
             // 
             // Categoria_label
             // 
@@ -278,6 +284,7 @@
             // Categoria_textbox
             // 
             this.Categoria_textbox.BackColor = System.Drawing.Color.LightSteelBlue;
+            this.Categoria_textbox.Enabled = false;
             this.Categoria_textbox.Location = new System.Drawing.Point(479, 364);
             this.Categoria_textbox.Name = "Categoria_textbox";
             this.Categoria_textbox.Size = new System.Drawing.Size(187, 22);
@@ -465,6 +472,7 @@
             this.Estatisticas_button.TabIndex = 45;
             this.Estatisticas_button.Text = "Estatisticas atuais";
             this.Estatisticas_button.UseVisualStyleBackColor = true;
+            this.Estatisticas_button.Visible = false;
             // 
             // Per_RespOp_label
             // 
@@ -474,6 +482,7 @@
             this.Per_RespOp_label.Size = new System.Drawing.Size(215, 16);
             this.Per_RespOp_label.TabIndex = 49;
             this.Per_RespOp_label.Text = "% de Responsável de Operações:";
+            this.Per_RespOp_label.Visible = false;
             // 
             // Per_RespOp_textbox
             // 
@@ -492,6 +501,7 @@
             this.Per_cheDeLoja_label.Size = new System.Drawing.Size(134, 16);
             this.Per_cheDeLoja_label.TabIndex = 47;
             this.Per_cheDeLoja_label.Text = "% de Chefes de Loja:";
+            this.Per_cheDeLoja_label.Visible = false;
             // 
             // Per_ChefedeLoja_textbox
             // 

@@ -66,6 +66,7 @@ namespace ProjetoBD
 
         private void InitializeCargoBox2()
         {
+
             Cargo2_ComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             Cargo2_ComboBox.Items.Add("Funcionário");
             Cargo2_ComboBox.Items.Add("Chefe de Loja");
@@ -73,6 +74,7 @@ namespace ProjetoBD
             Cargo2_ComboBox.Items.Add("Atendimento ao Cliente");
             Cargo2_ComboBox.Items.Add("Reposição");
             Cargo2_ComboBox.Items.Add("Operador de Caixa");
+            Cargo2_ComboBox.SelectedIndex = 2;
 
             // Associate the event-handling method with the 
             // SelectedIndexChanged event.
@@ -111,39 +113,89 @@ namespace ProjetoBD
             // the employee's name from the list.
             string selectedEmployee = (string)Cargo2_ComboBox.SelectedItem;
             //MessageBox.Show(selectedEmployee);
+            if (selectedEmployee == "Responsável de Operações" || selectedEmployee == "Atendimento ao Cliente" || selectedEmployee == "Operador de Caixa")
+            {
+                Categoria_textbox.Visible = true;
+                Categoria_label.Visible = true;
+            }
+            else
+            {
+                Categoria_textbox.Visible = false;
+                Categoria_label.Visible = false;
+            }
 
             if (selectedEmployee == "Funcionário")
             {
+                Salario_label.Visible = false;
+                Salario_textbox.Visible = false;
+                Sup_label.Visible = false;
+                Sup_textbox.Visible = false;
+                Cargo_Box.Visible = false;
+                Cargo_label.Visible = false;
+
                 Reset();
                 updateListFuncionarios();
             }
 
-            if (selectedEmployee == "Chefe de Loja")
+            else if (selectedEmployee == "Chefe de Loja")
             {
+                Salario_label.Visible = true;
+                Salario_textbox.Visible = true;
+                Sup_label.Visible = true;
+                Sup_textbox.Visible = true;
+                Cargo_Box.Visible = true;
+                Cargo_label.Visible = true;
                 Reset();
                 updateListChefesDeLoja();
             }
 
 
 
-            if (selectedEmployee == "Responsável de Operações")
+            else if (selectedEmployee == "Responsável de Operações")
             {
+                Salario_label.Visible = true;
+                Salario_textbox.Visible = true;
+                Sup_label.Visible = true;
+                Sup_textbox.Visible = true;
+                Cargo_Box.Visible = true;
+                Cargo_label.Visible = true;
+                Categoria_label.Text = "Categoria";
                 Reset();
                 updateListResp_op();
             }
 
-            if (selectedEmployee == "Atendimento ao Cliente")
+            else if (selectedEmployee == "Atendimento ao Cliente")
             {
+                Salario_label.Visible = true;
+                Salario_textbox.Visible = true;
+                Sup_label.Visible = true;
+                Sup_textbox.Visible = true;
+                Cargo_Box.Visible = true;
+                Cargo_label.Visible = true;
+                Categoria_label.Text = "Extensão de telefone";
                 Reset();
                 updateListAtend_Cliente();
             }
-            if (selectedEmployee == "Reposição")
+            else if (selectedEmployee == "Reposição")
             {
+                Salario_label.Visible = true;
+                Salario_textbox.Visible = true;
+                Sup_label.Visible = true;
+                Sup_textbox.Visible = true;
+                Cargo_Box.Visible = true;
+                Cargo_label.Visible = true;
                 Reset();
                 updateListRepo();
             }
-            if (selectedEmployee == "Operador de Caixa")
+            else if (selectedEmployee == "Operador de Caixa")
             {
+                Salario_label.Visible = true;
+                Salario_textbox.Visible = true;
+                Sup_label.Visible = true;
+                Sup_textbox.Visible = true;
+                Cargo_Box.Visible = true;
+                Cargo_label.Visible = true;
+                Categoria_label.Text = "ID de caixa";
                 Reset();
                 updateListOp_Caixa();
             }
@@ -237,7 +289,7 @@ namespace ProjetoBD
                         break;
 
                 case "Atendimento ao Cliente":
-                    command = new SqlCommand("Mercado.Adicionar_Atend_Cliente" + cargo, cn);
+                    command = new SqlCommand("Mercado.Adicionar_Atend_Cliente", cn);
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.Add(new SqlParameter("@Nome", nome));
                     command.Parameters.Add(new SqlParameter("@Email", email));
@@ -697,30 +749,7 @@ System.EventArgs e)
             Funcionario selectedEmployee = (Funcionario)Func_list.SelectedItem;
             //MessageBox.Show(selectedEmployee);
             if (selectedEmployee != null)
-            {   
-                if (selectedEmployee.Cargo == "Responsável de Operações" || selectedEmployee.Cargo == "Atendimento ao Cliente" || selectedEmployee.Cargo == "Operador de Caixa")
-                {
-                    Categoria_textbox.Visible = true;
-                    Categoria_label.Visible = true;
-                }
-                else
-                {
-                    Categoria_textbox.Visible = false;
-                    Categoria_label.Visible = false;
-                }
-                if(selectedEmployee.Cargo == "Responsável de Operações") {
-                    Categoria_label.Text = "Categoria";   
-                }
-                else if (selectedEmployee.Cargo == "Atendimento ao Cliente")
-                {
-                    Categoria_label.Text = "Extensão de telefone";
-                }
-                else if (selectedEmployee.Cargo == "Operador de Caixa")
-                {
-                    Categoria_label.Text = "ID de caixa";
-                }
-
-
+            {  
                 if (selectedEmployee.Id_Sup == null)
                 {
                     Categoria_label.Visible = false;
@@ -806,7 +835,7 @@ System.EventArgs e)
                 Email_textbox.Text = selectedProd.Marca;
                 tel_textbox.Text = selectedProd.CodSeccao;
                 Morada_textbox.Text = selectedProd.Designacao;
-                Salario_textbox.Text = selectedProd.Stock;
+                SSN_textbox.Text = selectedProd.Stock;
                 Sup_textbox.Text = selectedProd.Preco;
             }
         }
@@ -1180,16 +1209,8 @@ System.EventArgs e)
             total_items_Atuais_label.Visible = true;
             Func_atuais_textBox.Visible = true;
             func_button.Enabled = false;
-            Sup_label.Visible = true;
-            Sup_textbox.Visible = true;
-            SSN_label.Visible = true;
-            SSN_textbox.Visible = true;
             NIF_label.Visible = true;
             NIF_textbox.Visible = true;
-            Cargo_label.Visible = true;
-            Cargo_Box.Visible = true;
-            Categoria_label.Visible = true;
-            Categoria_textbox.Visible = true;
             Inicio_label.Visible = true;
             Data_inicio.Visible = true;
             Fim_Name.Visible = true;
@@ -1197,6 +1218,7 @@ System.EventArgs e)
             NoEndDate_Button.Visible = true;
             Produtos_Button.Enabled = true;
             Apagar_button.Visible = false;
+            Cargo2_ComboBox.Visible = true;
             updateListFuncionarios();
         }
 
@@ -1207,7 +1229,7 @@ System.EventArgs e)
             Id_label.Text = "Código do Produto";
             tele_label.Text = "Código da Secção";
             Morada_label.Text = "Designação";
-            Salario_label.Text = "Stock";
+            SSN_label.Text = "Stock";
 
             Nome_textbox.Text = "";
             Email_textbox.Text = "";
@@ -1228,8 +1250,10 @@ System.EventArgs e)
             func_button.Enabled = true;
             Sup_label.Visible = false;
             Sup_textbox.Visible = false;
-            SSN_label.Visible = false;
-            SSN_textbox.Visible = false;
+            SSN_label.Visible = true;
+            SSN_textbox.Visible = true;
+            Salario_label.Visible = false;
+            Salario_textbox.Visible = false;
             NIF_label.Visible = false;
             NIF_textbox.Visible = false;
             Cargo_label.Visible = false;
@@ -1243,6 +1267,7 @@ System.EventArgs e)
             NoEndDate_Button.Visible = false;
             Produtos_Button.Enabled = false;
             Apagar_button.Visible = true;
+            Cargo2_ComboBox.Visible = false;
             updateListProdutos();
 
         }
