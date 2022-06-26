@@ -1,3 +1,5 @@
+use p8g2;
+
 -- Chefe de Loja atual
 drop view Mercado.Chefe_Loja_atual
 go 

@@ -1,3 +1,5 @@
+use p8g2;
+
 -- Funcionario
 insert into Mercado.Funcionario values ('1', '548058844', '39572624308', 'zhischke2@state.tx.us', '172 Kinsman Parkway', 'Zolly Hischke', '939935190');
 insert into Mercado.Funcionario values ('2', '061631522', '68967519341', 'sbracken1@google.es', '01090 Pond Road', 'Shelbi Bracken', '937163174');
