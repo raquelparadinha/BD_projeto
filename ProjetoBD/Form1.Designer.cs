@@ -67,12 +67,8 @@
             this.total_items_label = new System.Windows.Forms.Label();
             this.total_items_Atuais_label = new System.Windows.Forms.Label();
             this.Func_atuais_textBox = new System.Windows.Forms.TextBox();
-            this.Estatisticas_button = new System.Windows.Forms.Button();
-            this.Per_RespOp_label = new System.Windows.Forms.Label();
-            this.Per_RespOp_textbox = new System.Windows.Forms.TextBox();
-            this.Per_cheDeLoja_label = new System.Windows.Forms.Label();
-            this.Per_ChefedeLoja_textbox = new System.Windows.Forms.TextBox();
             this.Cargo2_ComboBox = new System.Windows.Forms.ComboBox();
+            this.comboBox3 = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // Nome_textbox
@@ -217,6 +213,7 @@
             this.Data_inicio.Size = new System.Drawing.Size(214, 22);
             this.Data_inicio.TabIndex = 15;
             this.Data_inicio.Value = new System.DateTime(2022, 6, 14, 0, 0, 0, 0);
+            this.Data_inicio.Visible = false;
             // 
             // Inicio_label
             // 
@@ -227,6 +224,7 @@
             this.Inicio_label.Size = new System.Drawing.Size(117, 20);
             this.Inicio_label.TabIndex = 16;
             this.Inicio_label.Text = "Data de Início:";
+            this.Inicio_label.Visible = false;
             this.Inicio_label.Click += new System.EventHandler(this.label5_Click);
             // 
             // Fim_Name
@@ -238,6 +236,7 @@
             this.Fim_Name.Size = new System.Drawing.Size(106, 20);
             this.Fim_Name.TabIndex = 18;
             this.Fim_Name.Text = "Data de Fim:";
+            this.Fim_Name.Visible = false;
             // 
             // Data_fim
             // 
@@ -247,6 +246,7 @@
             this.Data_fim.Size = new System.Drawing.Size(214, 22);
             this.Data_fim.TabIndex = 17;
             this.Data_fim.Value = new System.DateTime(2022, 6, 14, 0, 0, 0, 0);
+            this.Data_fim.Visible = false;
             // 
             // Cargo_Box
             // 
@@ -341,12 +341,13 @@
             // 
             // Change_func
             // 
-            this.Change_func.Location = new System.Drawing.Point(925, 440);
+            this.Change_func.Location = new System.Drawing.Point(835, 440);
             this.Change_func.Name = "Change_func";
             this.Change_func.Size = new System.Drawing.Size(84, 33);
             this.Change_func.TabIndex = 30;
             this.Change_func.Text = "Alterar";
             this.Change_func.UseVisualStyleBackColor = true;
+            this.Change_func.Visible = false;
             this.Change_func.Click += new System.EventHandler(this.Change_func_Click);
             // 
             // Cancel_Button
@@ -406,12 +407,13 @@
             // 
             // add_button
             // 
-            this.add_button.Location = new System.Drawing.Point(835, 441);
+            this.add_button.Location = new System.Drawing.Point(925, 440);
             this.add_button.Name = "add_button";
             this.add_button.Size = new System.Drawing.Size(84, 33);
             this.add_button.TabIndex = 39;
             this.add_button.Text = "Adicionar";
             this.add_button.UseVisualStyleBackColor = true;
+            this.add_button.Visible = false;
             this.add_button.Click += new System.EventHandler(this.Add_button_Click);
             // 
             // Apagar_button
@@ -430,7 +432,7 @@
             this.total_items_textbox.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.total_items_textbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.total_items_textbox.Enabled = false;
-            this.total_items_textbox.Location = new System.Drawing.Point(203, 352);
+            this.total_items_textbox.Location = new System.Drawing.Point(216, 352);
             this.total_items_textbox.Name = "total_items_textbox";
             this.total_items_textbox.Size = new System.Drawing.Size(22, 15);
             this.total_items_textbox.TabIndex = 41;
@@ -459,58 +461,11 @@
             this.Func_atuais_textBox.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Func_atuais_textBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.Func_atuais_textBox.Enabled = false;
-            this.Func_atuais_textBox.Location = new System.Drawing.Point(203, 378);
+            this.Func_atuais_textBox.Location = new System.Drawing.Point(216, 378);
             this.Func_atuais_textBox.Name = "Func_atuais_textBox";
             this.Func_atuais_textBox.Size = new System.Drawing.Size(22, 15);
             this.Func_atuais_textBox.TabIndex = 43;
-            // 
-            // Estatisticas_button
-            // 
-            this.Estatisticas_button.Location = new System.Drawing.Point(873, 120);
-            this.Estatisticas_button.Name = "Estatisticas_button";
-            this.Estatisticas_button.Size = new System.Drawing.Size(136, 30);
-            this.Estatisticas_button.TabIndex = 45;
-            this.Estatisticas_button.Text = "Estatisticas atuais";
-            this.Estatisticas_button.UseVisualStyleBackColor = true;
-            this.Estatisticas_button.Visible = false;
-            // 
-            // Per_RespOp_label
-            // 
-            this.Per_RespOp_label.AutoSize = true;
-            this.Per_RespOp_label.Location = new System.Drawing.Point(728, 192);
-            this.Per_RespOp_label.Name = "Per_RespOp_label";
-            this.Per_RespOp_label.Size = new System.Drawing.Size(215, 16);
-            this.Per_RespOp_label.TabIndex = 49;
-            this.Per_RespOp_label.Text = "% de Responsável de Operações:";
-            this.Per_RespOp_label.Visible = false;
-            // 
-            // Per_RespOp_textbox
-            // 
-            this.Per_RespOp_textbox.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.Per_RespOp_textbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.Per_RespOp_textbox.Location = new System.Drawing.Point(949, 192);
-            this.Per_RespOp_textbox.Name = "Per_RespOp_textbox";
-            this.Per_RespOp_textbox.Size = new System.Drawing.Size(22, 15);
-            this.Per_RespOp_textbox.TabIndex = 48;
-            // 
-            // Per_cheDeLoja_label
-            // 
-            this.Per_cheDeLoja_label.AutoSize = true;
-            this.Per_cheDeLoja_label.Location = new System.Drawing.Point(728, 170);
-            this.Per_cheDeLoja_label.Name = "Per_cheDeLoja_label";
-            this.Per_cheDeLoja_label.Size = new System.Drawing.Size(134, 16);
-            this.Per_cheDeLoja_label.TabIndex = 47;
-            this.Per_cheDeLoja_label.Text = "% de Chefes de Loja:";
-            this.Per_cheDeLoja_label.Visible = false;
-            // 
-            // Per_ChefedeLoja_textbox
-            // 
-            this.Per_ChefedeLoja_textbox.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.Per_ChefedeLoja_textbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.Per_ChefedeLoja_textbox.Location = new System.Drawing.Point(868, 171);
-            this.Per_ChefedeLoja_textbox.Name = "Per_ChefedeLoja_textbox";
-            this.Per_ChefedeLoja_textbox.Size = new System.Drawing.Size(22, 15);
-            this.Per_ChefedeLoja_textbox.TabIndex = 46;
+            this.Func_atuais_textBox.TextChanged += new System.EventHandler(this.Func_atuais_textBox_TextChanged);
             // 
             // Cargo2_ComboBox
             // 
@@ -522,18 +477,25 @@
             this.Cargo2_ComboBox.Sorted = true;
             this.Cargo2_ComboBox.TabIndex = 50;
             // 
+            // comboBox3
+            // 
+            this.comboBox3.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.comboBox3.ImeMode = System.Windows.Forms.ImeMode.Off;
+            this.comboBox3.Location = new System.Drawing.Point(873, 124);
+            this.comboBox3.Name = "comboBox3";
+            this.comboBox3.Size = new System.Drawing.Size(136, 24);
+            this.comboBox3.Sorted = true;
+            this.comboBox3.TabIndex = 51;
+            this.comboBox3.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Menu;
             this.ClientSize = new System.Drawing.Size(1030, 480);
+            this.Controls.Add(this.comboBox3);
             this.Controls.Add(this.Cargo2_ComboBox);
-            this.Controls.Add(this.Per_RespOp_label);
-            this.Controls.Add(this.Per_RespOp_textbox);
-            this.Controls.Add(this.Per_cheDeLoja_label);
-            this.Controls.Add(this.Per_ChefedeLoja_textbox);
-            this.Controls.Add(this.Estatisticas_button);
             this.Controls.Add(this.total_items_Atuais_label);
             this.Controls.Add(this.Func_atuais_textBox);
             this.Controls.Add(this.total_items_label);
@@ -623,12 +585,8 @@
         private System.Windows.Forms.Label total_items_label;
         private System.Windows.Forms.Label total_items_Atuais_label;
         private System.Windows.Forms.TextBox Func_atuais_textBox;
-        private System.Windows.Forms.Button Estatisticas_button;
-        private System.Windows.Forms.Label Per_RespOp_label;
-        private System.Windows.Forms.TextBox Per_RespOp_textbox;
-        private System.Windows.Forms.Label Per_cheDeLoja_label;
-        private System.Windows.Forms.TextBox Per_ChefedeLoja_textbox;
         private System.Windows.Forms.ComboBox Cargo2_ComboBox;
+        private System.Windows.Forms.ComboBox comboBox3;
     }
 }
 
