@@ -1,4 +1,5 @@
-use p8g2
+use p8g2;
+
 drop proc Mercado.addFunc
 go
 create proc Mercado.addFunc(@NIF char(9), @SSN char(11), @Email varchar(150), @Morada varchar(150), @Nome varchar(150), @Telemovel char(9), @newID int output)
@@ -121,7 +122,8 @@ go
 drop proc Mercado.addReposicao
 go
 create proc Mercado.addReposicao(
-@NIF char(9), @SSN char(11), @Email varchar(150), @Morada varchar(150), @Nome varchar(150), @Telemovel char(9), @Salario decimal(6, 2), @DInicio date, @DFim date)
+@NIF char(9), @SSN char(11), @Email varchar(150), @Morada varchar(150), @Nome varchar(150), @Telemovel char(9), 
+@Salario decimal(6, 2), @DInicio date, @DFim date)
 as
 	begin 
 		begin try

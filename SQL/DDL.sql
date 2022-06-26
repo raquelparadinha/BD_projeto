@@ -1,3 +1,4 @@
+use p8g2;
 --create schema Mercado;
 --go
 
@@ -41,7 +42,7 @@ create table Mercado.Funcionario (
 	SSN						char(11)					not null,
 	Email                   varchar(150),  
     Morada                  varchar(150),            
-    Nome                    varchar(150)					not null,            
+    Nome                    varchar(150)				not null,            
     Telemovel               char(9),            
 	primary key (ID),
 	unique (NIF), unique (SSN)

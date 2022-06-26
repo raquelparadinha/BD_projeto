@@ -1,3 +1,7 @@
+use p8g2;
+
+drop trigger Mercado.checkAddFunc
+go
 create trigger Mercado.checkAddFunc on Mercado.Funcionario
 after insert, update
 as

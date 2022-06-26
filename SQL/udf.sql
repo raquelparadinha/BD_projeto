@@ -1,4 +1,4 @@
-use p8g2
+use p8g2;
 
 /* OBTER A LISTA DE FUNCIONÁRIOS */
 drop function Mercado.obterFuncionarios
@@ -74,55 +74,6 @@ as
 			union
 			select * from Mercado.Reposicao_antigo)
 go
-
-/* OBTER A LISTA DE CAIXAS */
-drop function Mercado.obterCaixas
-go
-create function Mercado.obterCaixas() returns table
-as 
-	return (select * from Mercado.Caixa)
-go
-
-/* OBTER A LISTA DE BALCÕES */
-drop function Mercado.obterBalcao
-go
-create function Mercado.obterBalcao() returns table
-as 
-	return (select * from Mercado.Balcao)
-go
-
-/* OBTER A LISTA DE ARMAZÉNS */
-drop function Mercado.obterArmazem
-go
-create function Mercado.obterArmazem() returns table
-as 
-	return (select * from Mercado.Armazem)
-go
-
-/* OBTER A LISTA DE SECÇÕES */
-drop function Mercado.obterSeccao
-go
-create function Mercado.obterSeccao() returns table
-as 
-	return (select * from Mercado.Seccao)
-go
-
-/* OBTER A LISTA DE PRODUTOS */
-drop function Mercado.obterProdutos
-go
-create function Mercado.obterProdutos() returns table
-as 
-	return (select * from Mercado.Produto)
-go
-
-/* OBTER A LISTA DE FUNCIONÁRIOS QUE REPÕE CADA SECÇÃO */
-drop function Mercado.obterRepoe
-go
-create function Mercado.obterRepoe() returns table
-as 
-	return (select * from Mercado.Repoe)
-go
-
 
 /* VERIFICAR QUAL FOI O ÚLTIMO ID DE FUNCIONÁRIO ADICIONADO */
 drop function Mercado.nextID
@@ -208,6 +159,7 @@ as
 	end
 go
 
+/* OBTER A LISTA DE PRODUTOS POR SECÇÃO */
 drop function Mercado.getProdutosSeccao
 go
 create function Mercado.getProdutosSeccao (@Designacao varchar(50)) returns @produtos table (
@@ -215,6 +167,7 @@ create function Mercado.getProdutosSeccao (@Designacao varchar(50)) returns @pro
     Preco                   decimal(5, 2)               not null,
     Marca                   varchar(150),   
     Nome                    varchar(150),
+	CodSeccao				char(6),
 	Stock                   int)
 as 
 	begin 
@@ -222,8 +175,11 @@ as
 		declare @Preco   as decimal(5, 2);
 		declare @Marca   as varchar(150);  
 		declare @Nome    as varchar(150);
+		declare @CodSec	 as char(6);
 		declare @Desgn	 as varchar(50);
 		declare @Stock   as int;
+
+		select @CodSec = Codigo from Mercado.Seccao where Designacao = @Designacao;
 
 		declare c cursor
 		for select CodProd, Preco, Marca, Nome, Designacao, Stock from Mercado.Produto;
@@ -235,7 +191,7 @@ as
 			begin
 				if @Desgn = @Designacao
 					begin 
-						insert into @produtos values (@CodProd, @Preco, @Marca, @Nome, @Stock);
+						insert into @produtos values (@CodProd, @Preco, @Marca, @Nome, @CodSec, @Stock);
 					end
 				fetch c into @CodProd, @Preco, @Marca, @Nome, @Desgn, @Stock;
 			end
